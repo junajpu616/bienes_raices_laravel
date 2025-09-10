@@ -26,6 +26,7 @@
             @enderror
         </fieldset>
         <input type="submit" value="Iniciar Sesión" class="boton boton-verde">
+        <p>¿No tienes una cuenta? <a href="{{ route('register') }}">Registrate</a></p>
     </form>
 </main>
 @endsection

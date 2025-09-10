@@ -45,6 +45,7 @@
     @enderror
 </fieldset>
 
+@if(!Auth::guard('seller')->check())
 <fieldset>
     <legend>Vendedor</legend>
     <label for="vendedor">Vendedor</label>
@@ -60,3 +61,4 @@
         <div class="alerta error">{{ $message }}</div>
     @enderror
 </fieldset>
+@endif

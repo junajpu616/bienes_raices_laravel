@@ -1,17 +1,20 @@
 @extends('layout')
 
-
 @section('contenido')
 
 <main class="contenedor seccion">
-    <h1>Administrador de Bienes Raices</h1>
-    
+    @if(Auth::guard('seller')->check())
+        @include('components.seller-menu')
+        <h1>Mis Propiedades</h1>
+    @else
+        <h1>Administrador de Bienes Raices</h1>
+        <a href="{{ route('admin.create') }}" class="boton boton-verde">Nueva Propiedad</a>
+        <a href="{{ route('vendedores.create' )}}" class="boton boton-amarillo">Nuevo Vendedor</a>
+    @endif
+
     @if (session('exito'))
         <p class="alerta exito">{{ session('exito') }}</p>
     @endif
-
-    <a href="{{ route('admin.create') }}" class="boton boton-verde">Nueva Propiedad</a>
-    <a href="{{ route('vendedores.create' )}}" class="boton boton-amarillo">Nuevo Vendedor</a>
 
     <h2>Propiedades</h2>
     <table class="propiedades">
@@ -61,8 +64,9 @@
                     <td>{{ $vendedor->telefono }}</td>
                     <td>
                         <a href="{{ route('vendedores.edit', $vendedor->id )}}" class="boton-amarillo-block">Actualizar</a>
-                        <form action="" method="POST" class="w-100">
+                        <form action="{{ route('vendedores.destroy', $vendedor->id) }}" method="POST" class="w-100">
                             @csrf
+                            @method('DELETE')
                             <input type="submit" class="boton-rojo-block" value="Eliminar">
                         </form>
                     </td>

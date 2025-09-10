@@ -1,0 +1,164 @@
+@use 'sass:color';
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+
+/* Seller Menu */
+.seller-menu {
+    background-color: color.adjust($gris, $lightness: 5%);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    h2 {
+        margin-bottom: 1.5rem;
+        color: $negro;
+        font-size: 1.8rem;
+    }
+}
+
+.menu-navegacion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    text-decoration: none;
+    color: color.adjust($gris, $lightness: -20%);
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    font-size: 1.6rem;
+
+    &:hover {
+        background-color: color.adjust($gris, $lightness: 10%);
+        color: $negro;
+    }
+
+    &.active {
+        background-color: $azul;
+        color: $blanco;
+    }
+
+    i {
+        margin-right: 1rem;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.menu-logout {
+    margin-top: 1rem;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+}
+
+/* Dashboard Styles */
+.dashboard-header {
+    margin-bottom: 2rem;
+
+    h2 {
+        color: $negro;
+        font-size: 2.4rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+
+    .boton {
+        padding: 1rem 2rem;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: $bold;
+        transition: background-color 0.3s ease;
+
+        &.boton-verde {
+            background-color: $verde;
+            color: $blanco;
+
+            &:hover {
+                background-color: color.adjust($verde, $lightness: -10%);
+            }
+        }
+
+        &.boton-azul {
+            background-color: $azul;
+            color: $blanco;
+
+            &:hover {
+                background-color: color.adjust($azul, $lightness: -10%);
+            }
+        }
+    }
+}
+
+.propiedades-vendedor {
+    h3 {
+        color: $negro;
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid $verde;
+        padding-bottom: 1rem;
+    }
+}
+
+.acciones-propiedad {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .boton-amarillo-block,
+    .boton-rojo-block {
+        flex: 1;
+        padding: 1rem;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: $bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .boton-amarillo-block {
+        background-color: $amarillo;
+        color: $negro;
+
+        &:hover {
+            background-color: color.adjust($amarillo, $lightness: -10%);
+        }
+    }
+
+    .boton-rojo-block {
+        background-color: $rojo;
+        color: $blanco;
+        border: none;
+
+        &:hover {
+            background-color: color.adjust($rojo, $lightness: -10%);
+        }
+    }
+}
+
+/* Responsive */
+@include tablet {
+    .dashboard-actions {
+        justify-content: flex-start;
+    }
+
+    .acciones-propiedad {
+        flex-direction: column;
+    }
+}

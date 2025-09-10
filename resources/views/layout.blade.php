@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <header class="header {{ $inicio ? 'inicio' : ''}}">
+<header class="header {{ isset($inicio) && $inicio ? 'inicio' : ''}}">
         <div class="contenedor contenido-header">
             <div class="barra">
                 <a href="{{ route('home') }}">
@@ -38,7 +38,7 @@
                             </form>
                         @endauth
                         @guest
-                            <a href="{{ route('login') }}">Iniciar Sesión</a>
+                            <a href="{{ route('seller.login') }}">Iniciar Sesión</a>
                         @endguest
                     </nav>
                 </div>

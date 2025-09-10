@@ -5,6 +5,7 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\PaginasController;
 use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -23,6 +24,8 @@ Route::match(['get', 'post'], '/contacto', [PaginasController::class, 'contacto'
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 // Administrador
 Route::get('/admin', [PropertyController::class, 'index'])->name('admin');
@@ -32,7 +35,29 @@ Route::get('/admin/edit/{propiedad}', [PropertyController::class, 'edit'])->name
 Route::put('/admin/update/{propiedad}', [PropertyController::class, 'update'])->name('admin.update');
 Route::delete('/admin/{propiedad}', [PropertyController::class, 'destroy'])->name('admin.destroy');
 
-// Vendedores
+// Seller Authentication
+Route::get('/seller/login', [SellerController::class, 'index'])->name('seller.login');
+Route::post('/seller/login', [SellerController::class, 'login']);
+Route::get('/seller/register', [SellerController::class, 'create'])->name('seller.register');
+Route::post('/seller/register', [SellerController::class, 'store']);
+Route::post('/seller/logout', [SellerController::class, 'logout'])->name('seller.logout');
+
+// Protected Seller Routes
+Route::middleware('auth:seller')->group(function () {
+    Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
+
+    // Property management for sellers
+    Route::get('/seller/properties', [PropertyController::class, 'index'])->name('seller.properties.index');
+    Route::get('/seller/properties/create', [PropertyController::class, 'create'])->name('seller.properties.create');
+    Route::post('/seller/properties', [PropertyController::class, 'store'])->name('seller.properties.store');
+    Route::get('/seller/properties/{property}/edit', [PropertyController::class, 'edit'])->name('seller.properties.edit');
+    Route::put('/seller/properties/{property}', [PropertyController::class, 'update'])->name('seller.properties.update');
+    Route::delete('/seller/properties/{property}', [PropertyController::class, 'destroy'])->name('seller.properties.destroy');
+});
+
+// Vendedores (Admin)
+Route::get('/admin/vendedores', [SellerController::class, 'adminIndex'])->name('vendedores.index');
 Route::get('/admin/vendedores/create', [SellerController::class, 'create'])->name('vendedores.create');
 Route::post('/admin/vendedores/create', [SellerController::class, 'store']);
 Route::get('/admin/vendedores/edit/{vendedor}', [SellerController::class, 'edit'])->name('vendedores.edit');
+Route::delete('/admin/vendedores/{vendedor}', [SellerController::class, 'destroy'])->name('vendedores.destroy');
