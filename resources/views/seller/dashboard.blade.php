@@ -2,7 +2,6 @@
 
 @section('contenido')
 <main class="contenedor seccion">
-    @include('components.seller-menu')
 
     <div class="dashboard-header">
         <h2>Bienvenido, {{ $seller->nombre }} {{ $seller->apellido }}</h2>

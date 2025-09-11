@@ -22,12 +22,20 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        // Autenticar
-        if(!Auth::attempt($request->only('email', 'password')))
-        {
-            return back()->with('mensaje', 'Credenciales Incorrectas');
+        $credentials = $request->only('email', 'password');
+
+        // Try to authenticate as admin (web guard)
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/admin');
         }
 
-        return redirect()->route('admin');
+        // Try to authenticate as seller (seller guard)
+        if (Auth::guard('seller')->attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect()->intended('/seller/dashboard');
+        }
+
+        return back()->with('mensaje', 'Credenciales Incorrectas');
     }
 }

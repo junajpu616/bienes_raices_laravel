@@ -9,7 +9,9 @@ class LogoutController extends Controller
 {
     public function store()
     {
+        // Logout from both guards
         Auth::logout();
+        Auth::guard('seller')->logout();
 
         return redirect()->route('home');
     }

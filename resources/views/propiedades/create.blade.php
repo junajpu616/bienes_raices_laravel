@@ -3,9 +3,6 @@
 @section('contenido')
 
 <main class="contenedor seccion">
-    @if(Auth::guard('seller')->check())
-        @include('components.seller-menu')
-    @endif
     <h1>Crear Propiedad</h1>
     @if(Auth::guard('seller')->check())
         <a href="{{ route('seller.dashboard') }}" class="boton boton-verde">Volver al Dashboard</a>

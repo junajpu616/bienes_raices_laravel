@@ -4,7 +4,6 @@
 
 <main class="contenedor seccion">
     @if(Auth::guard('seller')->check())
-        @include('components.seller-menu')
         <h1>Mis Propiedades</h1>
     @else
         <h1>Administrador de Bienes Raices</h1>

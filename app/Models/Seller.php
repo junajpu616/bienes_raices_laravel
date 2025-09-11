@@ -15,7 +15,8 @@ class Seller extends Authenticatable
         'apellido',
         'telefono',
         'email',
-        'password'
+        'password',
+        'is_admin'
     ];
 
     protected $hidden = [

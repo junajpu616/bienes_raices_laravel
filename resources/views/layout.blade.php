@@ -31,12 +31,23 @@
                         <a href="{{ route('blog') }}">Blog</a>
                         <a href="{{ route('contacto') }}">Contacto</a>                      
                         @auth
-                            <a href="{{ route('admin') }}">CRUD</a>
+                            @if(auth()->user()->is_admin)
+                                <a href="{{ route('admin') }}">CRUD</a>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <input type="submit" value="Cerrar Sesión" style="color: white; margin: 1rem; font-size: 1.8rem;">
+                                </form>
+                            @endif                            
+                        @endauth                        
+                        @if(Auth::guard('seller')->check())
+                            <a href="{{ route('seller.dashboard') }}">Dashboard</a>
+                            <a href="{{ route('seller.properties.index') }}">Mis Propiedades</a>
+                            <a href="{{ route('seller.properties.create') }}">Crear Propiedad</a>
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <input type="submit" value="Cerrar Sesión" style="color: white; margin: 1rem; font-size: 1.8rem;">
                             </form>
-                        @endauth
+                        @endif
                         @guest
                             <a href="{{ route('seller.login') }}">Iniciar Sesión</a>
                         @endguest
