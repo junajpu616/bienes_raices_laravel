@@ -90,12 +90,13 @@
         padding: $spacing-lg $spacing-md;
         border: 2px solid #e5e7eb;
         border-radius: $radius-lg;
-        font-size: 1.6rem;
+        font-size: 1.8rem; // Aumentado de 1.6rem a 1.8rem
         background: $blanco;
         transition: all $transition-base;
         position: relative;
         z-index: 1;
         font-family: inherit;
+        line-height: 1.4; // Mejor espaciado entre líneas
         
         // Eliminar placeholder por completo cuando hay label flotante
         &::placeholder {
@@ -151,7 +152,7 @@
         left: $spacing-md;
         transform: translateY(-50%);
         color: $gray-500;
-        font-size: 1.6rem;
+        font-size: 1.7rem; // Aumentado para ser proporcional con el input
         font-weight: $medium;
         pointer-events: none;
         transition: all $transition-base ease-out;
@@ -165,14 +166,18 @@
             
             // Label cuando está arriba (focused o con contenido)
             .formulario__input:focus + &,
-            .formulario__input:not([value=""]) + & {
+            .formulario__input:not([value=""]) + &,
+            .formulario__textarea:focus + &,
+            .formulario__textarea:not(:placeholder-shown) + &,
+            .formulario__select:focus + &,
+            .formulario__select:not([value=""]) + & {
                 top: 0;
                 transform: translateY(-50%) scale(0.85);
                 background: $blanco;
                 padding: 0 $spacing-xs;
                 color: $primary;
                 font-weight: $semibold;
-                font-size: 1.4rem;
+                font-size: 1.5rem; // Ajustado para ser más legible cuando flota
             }
             
             // Label en estado de error
@@ -236,6 +241,84 @@
         min-height: 12rem;
         resize: vertical;
         font-family: $fuente_principal;
+        padding-top: $spacing-xl; // Más espacio arriba para el label flotante
+        font-size: 1.8rem; // Consistente con inputs
+        line-height: 1.5; // Mejor legibilidad en textarea
+    }
+    
+    &__question {
+        font-size: 1.6rem;
+        font-weight: $semibold;
+        color: $gray-700;
+        margin-bottom: $spacing-md;
+        margin-top: 0;
+    }
+    
+    &__radio-group {
+        display: flex;
+        gap: $spacing-xl;
+        margin-bottom: $spacing-md;
+        
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: $spacing-md;
+        }
+    }
+    
+    &__radio-item {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+    }
+    
+    &__radio {
+        width: 2rem;
+        height: 2rem;
+        border: 2px solid $gray-300;
+        border-radius: 50%;
+        background: $blanco;
+        cursor: pointer;
+        position: relative;
+        appearance: none;
+        transition: all $transition-base;
+        
+        &:checked {
+            border-color: $primary;
+            background: $primary;
+            
+            &::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 0.8rem;
+                height: 0.8rem;
+                background: white;
+                border-radius: 50%;
+            }
+        }
+        
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba($primary, 0.2);
+        }
+        
+        &:hover:not(:checked) {
+            border-color: $primary;
+        }
+    }
+    
+    &__radio-label {
+        font-size: 1.6rem;
+        font-weight: $medium;
+        color: $gray-700;
+        cursor: pointer;
+        user-select: none;
+        
+        &:hover {
+            color: $primary;
+        }
     }
     
     &__select {
@@ -477,5 +560,92 @@ fieldset {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* =====================================
+   ESTILOS ESPECÍFICOS PARA FILE INPUT
+   ===================================== */
+
+.formulario__input--file {
+    padding: 1.5rem;
+    background: rgba(248, 250, 252, 0.8);
+    border: 2px dashed rgba(156, 163, 175, 0.4);
+    cursor: pointer;
+    text-align: center;
+    position: relative;
+    
+    &::file-selector-button {
+        background: linear-gradient(135deg, $primary, color.adjust($primary, $lightness: -10%));
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: $radius-md;
+        font-weight: $semibold;
+        margin-right: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.4rem;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -8px $primary;
+        }
+    }
+    
+    &:hover {
+        border-color: $primary;
+        background: rgba($primary, 0.05);
+    }
+    
+    &:focus {
+        border-color: $primary;
+        box-shadow: 0 0 0 3px rgba($primary, 0.1);
+    }
+}
+
+/* Label para file input (no debe ser flotante) */
+.formulario__input--file + .formulario__label {
+    position: static !important;
+    transform: none !important;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: $semibold;
+    color: $gray-700;
+    font-size: 1.4rem;
+    top: auto;
+    left: auto;
+    background: transparent;
+    padding: 0;
+}
+
+/* Label para select (no debe ser flotante) */
+.formulario__select + .formulario__label {
+    position: static !important;
+    transform: none !important;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: $semibold;
+    color: $gray-700;
+    font-size: 1.4rem;
+    top: auto;
+    left: auto;
+    background: transparent;
+    padding: 0;
+}
+
+/* Imagen preview mejorada */
+.imagen-small {
+    max-width: 20rem;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: $radius-lg;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
     }
 }

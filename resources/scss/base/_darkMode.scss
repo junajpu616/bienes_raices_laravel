@@ -79,6 +79,32 @@ html.dark-mode body {
             color: $secondary;
         }
     }
+    
+    // Dropdown menus en dark mode
+    .dropdown-menu {
+        background: $dark-bg-secondary;
+        border: 1px solid $dark-border;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        
+        a {
+            color: $dark-text-secondary;
+            
+            &:hover {
+                background: $dark-bg-tertiary;
+                color: $secondary;
+            }
+        }
+    }
+    
+    .nav-dropdown {
+        .dropdown-toggle {
+            color: $dark-text-primary;
+            
+            &:hover {
+                color: $secondary;
+            }
+        }
+    }
 
     // Cards y anuncios
     .anuncio {
@@ -238,10 +264,42 @@ html.dark-mode body {
 
         &__error {
             color: $danger-light;
+            background: rgba($danger, 0.15);
+            border-left-color: $danger-light;
         }
 
         &__help {
             color: $dark-text-muted;
+        }
+        
+        &__question {
+            color: $dark-text-primary;
+        }
+        
+        &__radio {
+            border-color: $dark-input-border;
+            background: $dark-input-bg;
+            
+            &:checked {
+                border-color: $dark-input-focus;
+                background: $dark-input-focus;
+            }
+            
+            &:focus {
+                box-shadow: 0 0 0 3px rgba($dark-input-focus, 0.25);
+            }
+            
+            &:hover:not(:checked) {
+                border-color: $dark-input-focus;
+            }
+        }
+        
+        &__radio-label {
+            color: $dark-text-secondary;
+            
+            &:hover {
+                color: $dark-input-focus;
+            }
         }
 
         // Checkboxes y radios en dark mode
