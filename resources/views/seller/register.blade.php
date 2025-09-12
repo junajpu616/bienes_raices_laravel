@@ -27,7 +27,7 @@
                         name="nombre" 
                         id="nombre"
                         class="formulario__input"
-                        placeholder=" "
+                        placeholder=""
                         value="{{ old('nombre') }}"
                         required
                     >
@@ -43,7 +43,7 @@
                         name="apellido" 
                         id="apellido"
                         class="formulario__input"
-                        placeholder=" "
+                        placeholder=""
                         value="{{ old('apellido') }}"
                         required
                     >
@@ -61,7 +61,7 @@
                         name="telefono" 
                         id="telefono"
                         class="formulario__input"
-                        placeholder=" "
+                        placeholder=""
                         value="{{ old('telefono') }}"
                         required
                     >
@@ -77,7 +77,7 @@
                         name="email" 
                         id="email"
                         class="formulario__input"
-                        placeholder=" "
+                        placeholder=""
                         value="{{ old('email') }}"
                         required
                     >
@@ -95,7 +95,7 @@
                         name="password" 
                         id="password"
                         class="formulario__input"
-                        placeholder=" "
+                        placeholder=""
                         required
                     >
                     <label for="password" class="formulario__label formulario__label--floating">Password</label>
@@ -111,7 +111,7 @@
                         name="password_confirmation" 
                         id="password_confirmation"
                         class="formulario__input"
-                        placeholder=" "
+                        placeholder=""
                         required
                     >
                     <label for="password_confirmation" class="formulario__label formulario__label--floating">Confirmar Password</label>
