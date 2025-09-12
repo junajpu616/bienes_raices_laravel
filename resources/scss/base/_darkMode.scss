@@ -145,6 +145,19 @@ html.dark-mode body {
             
             &--floating {
                 color: $dark-text-muted;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                
+                // Cuando el input está enfocado o tiene contenido
+                .formulario__input:focus + &,
+                .formulario__input:not([value=""]) + & {
+                    background: $dark-bg-secondary !important;
+                    color: $dark-input-focus !important;
+                }
+                
+                // Estado de error
+                .formulario__field--error & {
+                    color: $danger-light !important;
+                }
             }
             
             &--required::after {
@@ -160,18 +173,44 @@ html.dark-mode body {
             border: 2px solid $dark-input-border;
             
             &::placeholder {
-                color: $dark-text-muted;
+                color: transparent !important;
+                opacity: 0 !important;
             }
             
             &:focus {
                 border-color: $dark-input-focus;
-                box-shadow: 0 0 0 3px rgba($dark-input-focus, 0.2);
-                background-color: color.adjust($dark-input-bg, $lightness: 2%);
+                box-shadow: 0 0 0 3px rgba($dark-input-focus, 0.25);
+                background-color: rgba($dark-input-focus, 0.05);
+                
+                + .formulario__label--floating {
+                    color: $dark-input-focus !important;
+                    background: $dark-bg-secondary;
+                }
+            }
+            
+            &:not([value=""]) {
+                border-color: color.adjust($dark-input-border, $lightness: 15%);
+                background-color: rgba($dark-input-bg, 0.9);
+                
+                + .formulario__label--floating {
+                    color: $dark-text-primary !important;
+                    background: $dark-bg-secondary;
+                }
             }
             
             &:hover:not(:focus) {
-                border-color: color.adjust($dark-input-border, $lightness: 10%);
-                background-color: color.adjust($dark-input-bg, $lightness: 1%);
+                border-color: color.adjust($dark-input-border, $lightness: 20%);
+                background-color: color.adjust($dark-input-bg, $lightness: 2%);
+            }
+            
+            &:valid:not([value=""]):not(:focus) {
+                border-color: $accent-light;
+                background-color: rgba($accent, 0.08);
+            }
+            
+            &:invalid:not(:focus):not([value=""]) {
+                border-color: $danger-light;
+                background-color: rgba($danger, 0.08);
             }
             
             &--error {

@@ -47,7 +47,7 @@
     
     &__field {
         position: relative;
-        margin-bottom: $spacing-lg;
+        margin-bottom: $spacing-xl;
         
         &--floating {
             .formulario__input:focus + .formulario__label,
@@ -56,6 +56,7 @@
                 background: $blanco;
                 padding: 0 $spacing-xs;
                 color: $primary;
+                font-weight: $semibold;
             }
         }
         
@@ -78,6 +79,105 @@
             .formulario__select {
                 border-color: $success;
                 box-shadow: 0 0 0 3px rgba($success, 0.1);
+            }
+        }
+    }
+    
+    &__input,
+    &__textarea,
+    &__select {
+        width: 100%;
+        padding: $spacing-lg $spacing-md;
+        border: 2px solid #e5e7eb;
+        border-radius: $radius-lg;
+        font-size: 1.6rem;
+        background: $blanco;
+        transition: all $transition-base;
+        position: relative;
+        z-index: 1;
+        font-family: inherit;
+        
+        // Eliminar placeholder por completo cuando hay label flotante
+        &::placeholder {
+            color: transparent !important;
+            opacity: 0 !important;
+        }
+        
+        // Estados de focus mejorados
+        &:focus {
+            outline: none;
+            border-color: $primary;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background: rgba(59, 130, 246, 0.02);
+        }
+        
+        // Cuando hay contenido (usando :not([value=""]) en lugar de :not(:placeholder-shown))
+        &:not([value=""]),
+        &:focus {
+            border-color: $primary;
+            background: rgba(249, 250, 251, 0.8);
+            
+            + .formulario__label--floating {
+                top: 0;
+                transform: translateY(-50%) scale(0.85);
+                background: $blanco;
+                padding: 0 $spacing-xs;
+                color: $primary;
+                font-weight: $semibold;
+                font-size: 1.4rem;
+            }
+        }
+        
+        // Validación visual mientras escribes
+        &:valid:not([value=""]):not(:focus) {
+            border-color: $success;
+            background: rgba(16, 185, 129, 0.03);
+        }
+        
+        &:invalid:not(:focus):not([value=""]) {
+            border-color: $danger;
+            background: rgba(239, 68, 68, 0.03);
+        }
+        
+        // Efecto hover sutil
+        &:hover:not(:focus) {
+            border-color: $gray-400;
+        }
+    }
+    
+    &__label {
+        position: absolute;
+        top: 50%;
+        left: $spacing-md;
+        transform: translateY(-50%);
+        color: $gray-500;
+        font-size: 1.6rem;
+        font-weight: $medium;
+        pointer-events: none;
+        transition: all $transition-base ease-out;
+        background: transparent;
+        padding: 0;
+        z-index: 2;
+        
+        &--floating {
+            // Label en estado normal
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            // Label cuando está arriba (focused o con contenido)
+            .formulario__input:focus + &,
+            .formulario__input:not([value=""]) + & {
+                top: 0;
+                transform: translateY(-50%) scale(0.85);
+                background: $blanco;
+                padding: 0 $spacing-xs;
+                color: $primary;
+                font-weight: $semibold;
+                font-size: 1.4rem;
+            }
+            
+            // Label en estado de error
+            .formulario__field--error & {
+                color: $danger;
             }
         }
     }
@@ -343,4 +443,39 @@ fieldset {
     margin-top: $spacing-xl;
     padding-top: $spacing-lg;
     border-top: 1px solid $gray-200;
+}
+
+// Estilos adicionales para feedback de campos
+.formulario {
+    &__help {
+        font-size: 1.3rem;
+        color: $gray-500;
+        margin-top: $spacing-xs;
+        font-style: italic;
+        display: block;
+    }
+    
+    &__error {
+        color: $danger;
+        font-size: 1.3rem;
+        margin-top: $spacing-xs;
+        font-weight: $medium;
+        padding: $spacing-xs $spacing-sm;
+        background: rgba($danger, 0.1);
+        border-radius: $radius-sm;
+        border-left: 3px solid $danger;
+        display: block;
+        animation: slideInUp 0.3s ease-out;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
