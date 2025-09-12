@@ -2,50 +2,512 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-.dark-mode {
-    background-color: color.adjust($grisOscuro, $lightness: -10%);
+// Dark mode variables
+$dark-bg-primary: #0f172a;      // Muy oscuro para fondo principal
+$dark-bg-secondary: #1e293b;    // Oscuro para cards y elementos
+$dark-bg-tertiary: #334155;     // Medio para borders e inputs
+$dark-text-primary: #f8fafc;    // Blanco suave para texto principal
+$dark-text-secondary: #cbd5e1;  // Gris claro para texto secundario
+$dark-text-muted: #94a3b8;      // Gris para texto menos importante
+$dark-border: #475569;          // Borders en dark mode
+$dark-input-bg: #1e293b;        // Fondo de inputs
+$dark-input-border: #475569;    // Border de inputs
+$dark-input-focus: #3b82f6;     // Color de focus en inputs
 
+.dark-mode,
+html.dark-mode body {
+    background-color: $dark-bg-primary;
+    color: $dark-text-primary;
+    transition: all $transition-slow;
+
+    // Textos generales
     p {
-        color: $blanco;
+        color: $dark-text-secondary;
     }
 
-    a, h1, h2, h3, h4 {
-        color: $gris;
+    a {
+        color: $dark-text-primary;
+        
+        &:hover {
+            color: $secondary-light;
+        }
     }
 
-    .anuncio, .resumen-propiedad {
-        background-color: $grisOscuro;
-        border: 1px solid $grisOscuro;
+    h1, h2, h3, h4, h5, h6 {
+        color: $dark-text-primary;
+    }
 
-        .precio {
-            color: $verde;
+    // Header en dark mode
+    .header {
+        background: linear-gradient(135deg, $dark-bg-primary 0%, $dark-bg-secondary 100%);
+        
+        &.inicio {
+            background: linear-gradient(
+                135deg, 
+                rgba($dark-bg-primary, 0.9) 0%, 
+                rgba($dark-bg-secondary, 0.8) 100%
+            ), url(../../img/header.jpg);
+        }
+    }
+
+    .navbar--scrolled {
+        background: rgba($dark-bg-secondary, 0.95);
+        backdrop-filter: blur(10px);
+        
+        .barra a img {
+            filter: brightness(0) invert(1);
         }
         
-        .icono {
-            filter: invert(100%);
+        .navegacion a {
+            color: $dark-text-primary;
+            
+            &:hover {
+                color: $secondary;
+            }
         }
     }
 
-    .texto-nosotros blockquote {
-        color: $blanco;
+    // Navegación
+    .navegacion a {
+        color: $dark-text-primary;
+        
+        &:hover {
+            color: $secondary;
+        }
+        
+        &.active {
+            color: $secondary;
+        }
     }
 
+    // Cards y anuncios
+    .anuncio {
+        background-color: $dark-bg-secondary;
+        border: 1px solid $dark-border;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+        .contenido-anuncio {
+            h3 {
+                color: $dark-text-primary;
+            }
+            
+            p {
+                color: $dark-text-secondary;
+            }
+        }
+
+        .precio {
+            color: $accent-light;
+        }
+        
+        .iconos-caracteristicas {
+            background: $dark-bg-tertiary;
+            border: 1px solid $dark-border;
+            
+            li {
+                &:not(:last-child) {
+                    border-right-color: $dark-border;
+                }
+                
+                .icono {
+                    filter: brightness(0) saturate(100%) invert(70%) sepia(92%) saturate(1352%) hue-rotate(87deg) brightness(98%) contrast(86%);
+                }
+                
+                p {
+                    color: $dark-text-secondary;
+                }
+            }
+        }
+
+        &:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+    }
+
+    // Formularios - LA PARTE MÁS IMPORTANTE
     .formulario {
-        label,
-        legend,
-        p {
-            color: $gris;
+        background: $dark-bg-secondary;
+        border: 1px solid $dark-border;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+
+        &__header {
+            h2 {
+                color: $dark-text-primary;
+            }
+            
+            p {
+                color: $dark-text-secondary;
+            }
         }
 
-        input:not([type="submit"]), 
-        textarea, 
-        select {
-            background-color: $grisOscuro;
-            color: $blanco;
-            border: 1px solid $grisOscuro;
+        &__label {
+            color: $dark-text-secondary;
+            
+            &--floating {
+                color: $dark-text-muted;
+            }
+            
+            &--required::after {
+                color: $danger-light;
+            }
+        }
+
+        &__input,
+        &__textarea,
+        &__select {
+            background-color: $dark-input-bg;
+            color: $dark-text-primary;
+            border: 2px solid $dark-input-border;
+            
+            &::placeholder {
+                color: $dark-text-muted;
+            }
+            
+            &:focus {
+                border-color: $dark-input-focus;
+                box-shadow: 0 0 0 3px rgba($dark-input-focus, 0.2);
+                background-color: color.adjust($dark-input-bg, $lightness: 2%);
+            }
+            
+            &:hover:not(:focus) {
+                border-color: color.adjust($dark-input-border, $lightness: 10%);
+                background-color: color.adjust($dark-input-bg, $lightness: 1%);
+            }
+            
+            &--error {
+                border-color: $danger-light;
+                box-shadow: 0 0 0 3px rgba($danger-light, 0.2);
+                background-color: rgba($danger, 0.05);
+            }
+            
+            &--success {
+                border-color: $accent-light;
+                box-shadow: 0 0 0 3px rgba($accent-light, 0.2);
+                background-color: rgba($accent, 0.05);
+            }
+            
+            &:disabled {
+                background-color: $dark-bg-tertiary;
+                color: $dark-text-muted;
+                opacity: 0.6;
+            }
+        }
+
+        &__select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        }
+
+        &__error {
+            color: $danger-light;
+        }
+
+        &__help {
+            color: $dark-text-muted;
+        }
+
+        // Checkboxes y radios en dark mode
+        &__checkbox,
+        &__radio {
+            input {
+                border-color: $dark-input-border;
+                background-color: $dark-input-bg;
+                
+                &:checked {
+                    border-color: $primary-light;
+                    background-color: $primary-light;
+                }
+                
+                &:focus {
+                    box-shadow: 0 0 0 3px rgba($primary-light, 0.2);
+                }
+            }
+            
+            label {
+                color: $dark-text-secondary;
+            }
         }
     }
+
+    // Inputs legacy (compatibilidad)
+    input:not([type="submit"]), 
+    textarea, 
+    select {
+        background-color: $dark-input-bg !important;
+        color: $dark-text-primary !important;
+        border: 2px solid $dark-input-border !important;
+        
+        &::placeholder {
+            color: $dark-text-muted !important;
+        }
+        
+        &:focus {
+            border-color: $dark-input-focus !important;
+            box-shadow: 0 0 0 3px rgba($dark-input-focus, 0.2) !important;
+        }
+    }
+
+    // Botones en dark mode
+    .btn {
+        &--primary {
+            background-color: $primary-light;
+            border-color: $primary-light;
+            
+            &:hover:not(:disabled) {
+                background-color: $primary;
+                box-shadow: 0 8px 25px rgba($primary-light, 0.3);
+            }
+        }
+        
+        &--secondary {
+            background-color: $secondary;
+            border-color: $secondary;
+            
+            &:hover:not(:disabled) {
+                background-color: $secondary-dark;
+                box-shadow: 0 8px 25px rgba($secondary, 0.3);
+            }
+        }
+        
+        &--accent {
+            background-color: $accent-light;
+            border-color: $accent-light;
+            
+            &:hover:not(:disabled) {
+                background-color: $accent;
+                box-shadow: 0 8px 25px rgba($accent-light, 0.3);
+            }
+        }
+        
+        &--outline-primary {
+            border-color: $primary-light;
+            color: $primary-light;
+            background-color: transparent;
+            
+            &:hover:not(:disabled) {
+                background-color: $primary-light;
+                color: $blanco;
+            }
+        }
+        
+        &--outline-secondary {
+            border-color: $secondary;
+            color: $secondary;
+            background-color: transparent;
+            
+            &:hover:not(:disabled) {
+                background-color: $secondary;
+                color: $blanco;
+            }
+        }
+        
+        &--light {
+            background-color: $dark-bg-tertiary;
+            color: $dark-text-primary;
+            
+            &:hover:not(:disabled) {
+                background-color: color.adjust($dark-bg-tertiary, $lightness: 10%);
+            }
+        }
+    }
+
+    // Botones legacy
+    .boton-amarillo,
+    .boton-amarillo-block {
+        background-color: $secondary !important;
+        
+        &:hover {
+            background-color: $secondary-dark !important;
+            box-shadow: 0 8px 25px rgba($secondary, 0.3);
+        }
+    }
+    
+    .boton-verde,
+    .boton-verde-block {
+        background-color: $accent-light !important;
+        
+        &:hover {
+            background-color: $accent !important;
+            box-shadow: 0 8px 25px rgba($accent-light, 0.3);
+        }
+    }
+    
+    .boton-rojo-block {
+        background-color: $danger-light !important;
+        
+        &:hover {
+            background-color: $danger !important;
+            box-shadow: 0 8px 25px rgba($danger-light, 0.3);
+        }
+    }
+
+    // Tablas
     table.propiedades {
-        color: $blanco;
+        background-color: $dark-bg-secondary;
+        color: $dark-text-primary;
+        
+        thead {
+            background: linear-gradient(135deg, $primary-dark, $primary);
+            
+            th {
+                color: $blanco;
+            }
+        }
+        
+        tbody {
+            tr {
+                border-bottom-color: $dark-border;
+                
+                &:hover {
+                    background-color: $dark-bg-tertiary;
+                }
+            }
+        }
+    }
+
+    // Footer
+    .footer {
+        background: linear-gradient(135deg, $dark-bg-primary, $dark-bg-secondary);
+        
+        &__section {
+            h3, h4 {
+                color: $dark-text-primary;
+            }
+            
+            p {
+                color: $dark-text-secondary;
+            }
+        }
+        
+        &__nav a {
+            color: $dark-text-secondary;
+            
+            &:hover {
+                color: $secondary;
+            }
+        }
+        
+        &__contact p {
+            color: $dark-text-secondary;
+        }
+        
+        &__bottom {
+            border-top-color: $dark-border;
+            
+            .copyright {
+                color: $dark-text-muted;
+            }
+        }
+    }
+
+    // Alertas en dark mode
+    .alerta {
+        &.exito {
+            background: linear-gradient(135deg, rgba($success, 0.2), rgba($accent-light, 0.2));
+            color: $accent-light;
+            border-left-color: $accent-light;
+        }
+        
+        &.error {
+            background: linear-gradient(135deg, rgba($danger, 0.2), rgba($danger-light, 0.2));
+            color: $danger-light;
+            border-left-color: $danger-light;
+        }
+        
+        &.warning {
+            background: linear-gradient(135deg, rgba($warning, 0.2), rgba($secondary, 0.2));
+            color: $secondary;
+            border-left-color: $secondary;
+        }
+    }
+
+    // Secciones especiales
+    .section {
+        &.bg-gray {
+            background-color: $dark-bg-secondary;
+        }
+    }
+
+    .hero-cta {
+        background: linear-gradient(
+            135deg,
+            rgba($dark-bg-primary, 0.9) 0%,
+            rgba($primary-dark, 0.8) 100%
+        ), url('../../img/encuentra.jpg');
+    }
+
+    // Blog cards
+    .blog-card {
+        background-color: $dark-bg-secondary;
+        border: 1px solid $dark-border;
+        
+        &__meta {
+            time {
+                color: $secondary;
+            }
+            
+            span {
+                color: $dark-text-muted;
+            }
+        }
+        
+        h4 a {
+            color: $dark-text-primary;
+            
+            &:hover {
+                color: $primary-light;
+            }
+        }
+        
+        p {
+            color: $dark-text-secondary;
+        }
+    }
+
+    // Testimoniales
+    .testimonial-card {
+        background-color: $dark-bg-secondary;
+        border: 1px solid $dark-border;
+        
+        blockquote {
+            color: $dark-text-secondary;
+        }
+        
+        &__author {
+            .author-info {
+                cite {
+                    color: $dark-text-primary;
+                }
+                
+                span {
+                    color: $dark-text-muted;
+                }
+            }
+        }
+    }
+
+    // Fieldsets
+    fieldset {
+        border-color: $dark-border;
+        background-color: $dark-bg-secondary;
+        
+        legend {
+            color: $dark-text-primary;
+            background: $dark-bg-primary;
+        }
+    }
+
+    // Contenedores especiales
+    .admin-panel {
+        background: $dark-bg-secondary;
+        border: 1px solid $dark-border;
+        
+        &__header {
+            background: linear-gradient(135deg, $primary-dark, $primary);
+        }
+        
+        &__actions {
+            background: $dark-bg-tertiary;
+            border-bottom-color: $dark-border;
+        }
     }
 }

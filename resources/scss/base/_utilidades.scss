@@ -1,18 +1,296 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
+// Sections
 .seccion {
     margin-top: calc($separacion / 2);
     margin-bottom: calc($separacion / 2);
 }
+
 .contenido-centrado {
     max-width: 80rem;
 }
 
+// Alignments
 .alinear-derecha {
     display: flex;
     justify-content: flex-end;
 }
 
+.alinear-centro {
+    text-align: center;
+}
+
+.alinear-izquierda {
+    text-align: left;
+}
+
 .w-100 {
     width: 100%;
+}
+
+.seccion-inferior {
+    @include tablet {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        column-gap: 2rem;
+    }
+}
+
+// Flex utilities
+.flex {
+    display: flex;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+// Grid utilities
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 {
+    grid-template-columns: 1fr;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+// Gaps
+.gap-sm {
+    gap: $spacing-sm;
+}
+
+.gap-md {
+    gap: $spacing-md;
+}
+
+.gap-lg {
+    gap: $spacing-lg;
+}
+
+.gap-xl {
+    gap: $spacing-xl;
+}
+
+// Margins
+.m-0 { margin: 0; }
+.m-auto { margin: auto; }
+.mt-sm { margin-top: $spacing-sm; }
+.mt-md { margin-top: $spacing-md; }
+.mt-lg { margin-top: $spacing-lg; }
+.mt-xl { margin-top: $spacing-xl; }
+.mb-sm { margin-bottom: $spacing-sm; }
+.mb-md { margin-bottom: $spacing-md; }
+.mb-lg { margin-bottom: $spacing-lg; }
+.mb-xl { margin-bottom: $spacing-xl; }
+
+// Paddings
+.p-0 { padding: 0; }
+.pt-sm { padding-top: $spacing-sm; }
+.pt-md { padding-top: $spacing-md; }
+.pt-lg { padding-top: $spacing-lg; }
+.pb-sm { padding-bottom: $spacing-sm; }
+.pb-md { padding-bottom: $spacing-md; }
+.pb-lg { padding-bottom: $spacing-lg; }
+
+// Widths
+.w-auto {
+    width: auto;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-25 {
+    width: 25%;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+// Display
+.d-block {
+    display: block;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.d-none {
+    display: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-grid {
+    display: grid;
+}
+
+// Border radius
+.rounded-sm {
+    border-radius: $radius-sm;
+}
+
+.rounded {
+    border-radius: $radius;
+}
+
+.rounded-lg {
+    border-radius: $radius-lg;
+}
+
+.rounded-xl {
+    border-radius: $radius-xl;
+}
+
+.rounded-full {
+    border-radius: $radius-full;
+}
+
+// Shadows
+.shadow-sm {
+    box-shadow: $shadow-sm;
+}
+
+.shadow {
+    box-shadow: $shadow;
+}
+
+.shadow-md {
+    box-shadow: $shadow-md;
+}
+
+.shadow-lg {
+    box-shadow: $shadow-lg;
+}
+
+.shadow-xl {
+    box-shadow: $shadow-xl;
+}
+
+// Alertas mejoradas
+.alerta {
+    padding: $spacing-md $spacing-lg;
+    border-radius: $radius;
+    margin: $spacing-md 0;
+    font-weight: $medium;
+    border-left: 4px solid;
+    
+    &.exito {
+        background-color: rgba($success, 0.1);
+        color: $success;
+        border-left-color: $success;
+    }
+    
+    &.error {
+        background-color: rgba($danger, 0.1);
+        color: $danger;
+        border-left-color: $danger;
+    }
+    
+    &.warning {
+        background-color: rgba($warning, 0.1);
+        color: $warning;
+        border-left-color: $warning;
+    }
+    
+    &.info {
+        background-color: rgba($info, 0.1);
+        color: $info;
+        border-left-color: $info;
+    }
+}
+
+// Responsive utilities
+@include tablet {
+    .tablet\:block {
+        display: block;
+    }
+    
+    .tablet\:flex {
+        display: flex;
+    }
+    
+    .tablet\:grid {
+        display: grid;
+    }
+    
+    .tablet\:hidden {
+        display: none;
+    }
+    
+    .tablet\:grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .tablet\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@include desktop {
+    .desktop\:block {
+        display: block;
+    }
+    
+    .desktop\:flex {
+        display: flex;
+    }
+    
+    .desktop\:grid {
+        display: grid;
+    }
+    
+    .desktop\:hidden {
+        display: none;
+    }
+    
+    .desktop\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .desktop\:grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }

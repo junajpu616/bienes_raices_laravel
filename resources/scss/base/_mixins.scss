@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use 'variables' as *;
+
 /** Media Queries **/
 @mixin telefono {
     @media (min-width: #{$telefono}) {
@@ -18,25 +19,115 @@
         @content;
     }
 }
-@mixin grid($columnas, $espaciado ) {
+
+@mixin desktop-xl {
+    @media (min-width: #{$desktop_xl}) {
+        @content;
+    }
+}
+
+@mixin grid($columnas, $espaciado: $spacing-md) {
     display: grid;
     gap: $espaciado;
     grid-template-columns: repeat($columnas, 1fr);
 }
 
-@mixin boton($bgColor, $display) {
-    background-color: $bgColor;
-    color: $blanco;
-    font-weight: $bold;
-    text-decoration: none;
-    padding: 1rem 3rem;
-    text-align: center;
-    margin-top: calc($separacion / 2);
-    display: $display;
-    border: none;
-    cursor: pointer;
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    &:hover {
-        background-color: color.adjust($bgColor, $lightness: -5%);
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin card-base {
+    background: white;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    transition: all $transition-base;
+}
+
+@mixin button-base {
+    padding: $spacing-md $spacing-lg;
+    border: none;
+    border-radius: $radius-md;
+    font-weight: $medium;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-sm;
+    text-decoration: none;
+    transition: all $transition-base;
+}
+
+@mixin button-size($size: 'md') {
+    @if $size == 'sm' {
+        padding: $spacing-xs $spacing-md;
+        font-size: 1.4rem;
+        gap: $spacing-xs;
+    } @else if $size == 'lg' {
+        padding: $spacing-md $spacing-xl;
+        font-size: 1.8rem;
+        gap: $spacing-sm;
+    } @else {
+        padding: $spacing-sm $spacing-lg;
+        font-size: 1.6rem;
+        gap: $spacing-xs;
     }
+}
+
+@mixin button-variant($bg-color, $text-color: $blanco) {
+    background-color: $bg-color;
+    color: $text-color;
+    
+    &:hover:not(:disabled) {
+        background-color: color.adjust($bg-color, $lightness: -8%);
+        transform: translateY(-1px);
+        box-shadow: $shadow-md;
+    }
+    
+    &:active {
+        transform: translateY(0);
+        box-shadow: $shadow-sm;
+    }
+}
+
+@mixin button-outline($border-color, $text-color: $border-color) {
+    background-color: transparent;
+    color: $text-color;
+    border: 2px solid $border-color;
+    
+    &:hover:not(:disabled) {
+        background-color: $border-color;
+        color: $blanco;
+        transform: translateY(-1px);
+        box-shadow: $shadow-md;
+    }
+}
+
+@mixin input-base {
+    width: 100%;
+    padding: $spacing-md;
+    border: 1px solid #d1d5db;
+    border-radius: $radius-md;
+    font-size: 1rem;
+    background: white;
+    transition: all $transition-base;
+}
+
+@mixin text-gradient($from, $to) {
+    background: linear-gradient(135deg, $from, $to);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@mixin glassmorphism($opacity: 0.1) {
+    background: rgba($blanco, $opacity);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba($blanco, 0.2);
 }

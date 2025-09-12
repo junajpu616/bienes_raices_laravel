@@ -2,43 +2,311 @@
 @use '../base/variables' as *;
 @use '../base/mixins' as *;
 
-.alerta {
+// Panel de administración
+.admin-panel {
+    background: $blanco;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-lg;
+    margin: $spacing-xl 0;
+    overflow: hidden;
+    
+    &__header {
+        background: linear-gradient(135deg, $primary, $primary-light);
+        color: $blanco;
+        padding: $spacing-xl;
+        text-align: center;
+        
+        h1 {
+            color: $blanco;
+            margin-bottom: $spacing-sm;
+        }
+        
+        p {
+            color: rgba($blanco, 0.9);
+            margin: 0;
+        }
+    }
+    
+    &__actions {
+        padding: $spacing-lg;
+        background: $gray-50;
+        border-bottom: 1px solid $gray-200;
+        @include flex-center;
+        gap: $spacing-md;
+        flex-wrap: wrap;
+        
+        @include tablet {
+            justify-content: flex-start;
+        }
+    }
+    
+    &__content {
+        padding: $spacing-xl;
+    }
+}
 
-    padding: .5rem;
+// Alertas mejoradas (ya están en utilidades, pero aquí legacy)
+.alerta {
+    padding: $spacing-md $spacing-lg;
     text-align: center;
     color: $blanco;
-    font-weight: $bold;
-    text-transform: uppercase;
-    margin: 1rem 0;
+    font-weight: $semibold;
+    margin: $spacing-md 0;
+    border-radius: $radius;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba($blanco, 0.2), transparent);
+        animation: shimmer 2s infinite;
+    }
+    
     &.error {
-        background-color: $rojo;
+        background: linear-gradient(135deg, $danger, $danger-dark);
+        box-shadow: 0 4px 20px rgba($danger, 0.3);
     }
 
     &.exito {
-        background-color: $verde;
+        background: linear-gradient(135deg, $success, $success);
+        box-shadow: 0 4px 20px rgba($success, 0.3);
+    }
+    
+    &.warning {
+        background: linear-gradient(135deg, $warning, $warning);
+        color: $gray-800;
+        box-shadow: 0 4px 20px rgba($warning, 0.3);
+    }
+}
+
+// Tablas modernas
+.table-container {
+    background: $blanco;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    overflow: hidden;
+    margin: $spacing-xl 0;
+}
+
+.table-header {
+    background: $gray-50;
+    padding: $spacing-lg;
+    border-bottom: 1px solid $gray-200;
+    @include flex-between;
+    
+    h2 {
+        margin: 0;
+        color: $gray-900;
+        font-size: 2.0rem;
+    }
+    
+    .table-stats {
+        color: $gray-600;
+        font-size: 1.4rem;
     }
 }
 
 table.propiedades {
-    text-align: center;
-    margin-top: 4rem;
     width: 100%;
-    border-spacing: 0;
-
+    border-collapse: collapse;
+    margin: 0;
+    font-size: 1.5rem;
+    
     thead {
-        background-color: $verde;
-
+        background: linear-gradient(135deg, $primary, $primary-light);
+        
         th {
             color: $blanco;
-            padding: 2rem;
+            padding: $spacing-lg $spacing-md;
+            text-align: left;
+            font-weight: $semibold;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            
+            &:first-child {
+                border-radius: $radius 0 0 0;
+            }
+            
+            &:last-child {
+                border-radius: 0 $radius 0 0;
+                text-align: center;
+            }
         }
     }
-
+    
+    tbody {
+        tr {
+            border-bottom: 1px solid $gray-200;
+            transition: all $transition-base;
+            
+            &:hover {
+                background-color: $gray-50;
+                transform: scale(1.001);
+            }
+            
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+        
+        td {
+            padding: $spacing-lg $spacing-md;
+            vertical-align: middle;
+            
+            &:last-child {
+                text-align: center;
+                padding: $spacing-md;
+            }
+        }
+    }
+    
     .imagen-tabla {
-        width: 10rem;
+        width: 8rem;
+        height: 6rem;
+        object-fit: cover;
+        border-radius: $radius;
+        box-shadow: $shadow-sm;
+        transition: transform $transition-base;
+        
+        &:hover {
+            transform: scale(1.1);
+            box-shadow: $shadow-md;
+        }
     }
 }
 
+// Acciones de tabla
+.table-actions {
+    @include flex-center;
+    gap: $spacing-xs;
+    flex-wrap: wrap;
+    
+    .btn {
+        padding: $spacing-xs $spacing-sm;
+        font-size: 1.3rem;
+        min-width: auto;
+    }
+    
+    form {
+        margin: 0;
+    }
+}
+
+// Imagen pequeña para formularios
 .imagen-small {
     width: 20rem;
+    max-width: 100%;
+    height: auto;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    margin: $spacing-md 0;
+}
+
+// Stats cards
+.stats-grid {
+    display: grid;
+    gap: $spacing-lg;
+    margin: $spacing-xl 0;
+    
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include desktop {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.stat-card {
+    @include card-base;
+    text-align: center;
+    
+    &__icon {
+        width: 5rem;
+        height: 5rem;
+        margin: 0 auto $spacing-md;
+        background: linear-gradient(135deg, $secondary, $secondary-light);
+        border-radius: $radius-full;
+        @include flex-center;
+        color: $blanco;
+        font-size: 2.4rem;
+    }
+    
+    &__number {
+        font-size: 3.2rem;
+        font-weight: $bold;
+        color: $primary;
+        margin-bottom: $spacing-xs;
+    }
+    
+    &__label {
+        color: $gray-600;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+}
+
+// Responsive table
+@include telefono {
+    .table-container {
+        overflow-x: auto;
+    }
+    
+    table.propiedades {
+        min-width: 600px;
+        font-size: 1.4rem;
+        
+        th, td {
+            padding: $spacing-sm;
+        }
+        
+        .imagen-tabla {
+            width: 6rem;
+            height: 4rem;
+        }
+    }
+    
+    .table-actions {
+        flex-direction: column;
+        
+        .btn {
+            width: 100%;
+        }
+    }
+}
+
+// Animaciones
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+// Loading states
+.table-loading {
+    .imagen-tabla {
+        background: linear-gradient(90deg, $gray-200 25%, $gray-100 50%, $gray-200 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }

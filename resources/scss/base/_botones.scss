@@ -1,22 +1,162 @@
 @use 'variables' as *;
 @use 'mixins' as *;
+
+// Botones base
+.btn {
+    @include button-base;
+    @include button-size;
+    
+    // Iconos en botones
+    .icon {
+        width: 1.6rem;
+        height: 1.6rem;
+    }
+}
+
+// Variantes de color
+.btn--primary {
+    @include button-variant($primary);
+}
+
+.btn--secondary {
+    @include button-variant($secondary);
+}
+
+.btn--accent {
+    @include button-variant($accent);
+}
+
+.btn--danger {
+    @include button-variant($danger);
+}
+
+.btn--dark {
+    @include button-variant($gray-800);
+}
+
+.btn--light {
+    @include button-variant($gray-100, $gray-800);
+}
+
+// Variantes outline
+.btn--outline-primary {
+    @include button-outline($primary);
+}
+
+.btn--outline-secondary {
+    @include button-outline($secondary);
+}
+
+.btn--outline-accent {
+    @include button-outline($accent);
+}
+
+.btn--outline-danger {
+    @include button-outline($danger);
+}
+
+// Tamaños
+.btn--sm {
+    @include button-size('sm');
+}
+
+.btn--lg {
+    @include button-size('lg');
+}
+
+// Variantes de display
+.btn--block {
+    width: 100%;
+    display: flex;
+}
+
+.btn--rounded {
+    border-radius: $radius-full;
+}
+
+.btn--square {
+    border-radius: 0;
+}
+
+// Efectos especiales
+.btn--gradient {
+    background: linear-gradient(135deg, $primary, $primary-light);
+    
+    &:hover:not(:disabled) {
+        background: linear-gradient(135deg, $primary-dark, $primary);
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+    }
+}
+
+.btn--glass {
+    @include glassmorphism(0.2);
+    color: $gray-800;
+    border: 1px solid rgba($gray-300, 0.3);
+    
+    &:hover:not(:disabled) {
+        @include glassmorphism(0.3);
+        transform: translateY(-1px);
+    }
+}
+
+// Botones legacy (compatibilidad hacia atrás)
 .boton-amarillo {
-    @include boton($amarillo, inline-block);
+    @extend .btn;
+    @include button-variant($secondary);
+    margin-top: calc($separacion / 2);
 }
 
 .boton-amarillo-block {
-    @include boton($amarillo, block);
+    @extend .btn;
+    @extend .btn--block;
+    @include button-variant($secondary);
+    margin-top: calc($separacion / 2);
 }
 
 .boton-verde {
-    @include boton($verde, inline-block);
-}
-
-.boton-rojo-block {
-    width: 100%;
-    @include boton($rojo, block);
+    @extend .btn;
+    @include button-variant($accent);
+    margin-top: calc($separacion / 2);
 }
 
 .boton-verde-block {
-    @include boton($verde, block);
+    @extend .btn;
+    @extend .btn--block;
+    @include button-variant($accent);
+    margin-top: calc($separacion / 2);
+}
+
+.boton-rojo-block {
+    @extend .btn;
+    @extend .btn--block;
+    @include button-variant($danger);
+    margin-top: calc($separacion / 2);
+}
+
+// Grupos de botones
+.btn-group {
+    display: inline-flex;
+    border-radius: $radius;
+    overflow: hidden;
+    box-shadow: $shadow;
+    
+    .btn {
+        border-radius: 0;
+        margin: 0;
+        border-right: 1px solid rgba($blanco, 0.2);
+        
+        &:first-child {
+            border-radius: $radius 0 0 $radius;
+        }
+        
+        &:last-child {
+            border-radius: 0 $radius $radius 0;
+            border-right: none;
+        }
+        
+        &:only-child {
+            border-radius: $radius;
+        }
+    }
 }

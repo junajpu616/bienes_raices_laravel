@@ -2,56 +2,248 @@
 @use '../base/variables' as *;
 @use '../base/mixins' as *;
 
-@include tablet {
-    .contenedor-anuncios {
-        @include grid(3, 2rem);
+.contenedor-anuncios {
+    display: grid;
+    gap: $spacing-lg;
+    margin: $spacing-xl 0;
+    
+    @include tablet {
+        grid-template-columns: repeat(2, 1fr);
+        gap: $spacing-xl;
+    }
+    
+    @include desktop {
+        grid-template-columns: repeat(3, 1fr);
+        gap: $spacing-2xl;
     }
 }
 
 .anuncio {
-    // background-color: lighten($gris, 5);
-    // border: 1px solid darken($gris, 10);
-    margin-bottom: 2rem;
-
-    .contenido-anuncio {
-        padding: 2rem;
-    }
-
-    h3, p {
-        margin: 1rem;
+    @include card-base;
+    padding: $spacing-lg;
+    overflow: hidden;
+    position: relative;
+    
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: $shadow-xl;
         
+        .anuncio__image {
+            transform: scale(1.05);
+        }
+        
+        .anuncio__badge {
+            transform: scale(1.1);
+        }
+    }
+    
+    .anuncio__image {
+        aspect-ratio: 16/10;
+        overflow: hidden;
+        position: relative;
+        border-radius: $radius-lg $radius-lg 0 0;
+        margin: (-$spacing-lg) (-$spacing-lg) $spacing-lg (-$spacing-lg);
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform $transition-slow;
+        }
+        
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                180deg, 
+                transparent 0%, 
+                rgba($gray-900, 0.2) 100%
+            );
+        }
+    }
+    
+    .anuncio__badge {
+        position: absolute;
+        top: $spacing-md;
+        right: $spacing-md;
+        background: linear-gradient(135deg, $accent, $accent-light);
+        color: $blanco;
+        padding: $spacing-xs $spacing-md;
+        border-radius: $radius-full;
+        font-size: 1.2rem;
+        font-weight: $semibold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        z-index: 2;
+        transition: transform $transition-base;
+        box-shadow: $shadow;
+    }
+    
+    .contenido-anuncio {
+        padding: 0;
+        
+        h3 {
+            font-size: 2.2rem;
+            font-weight: $semibold;
+            color: $gray-900;
+            margin: 0 0 $spacing-sm 0;
+            text-align: left;
+            line-height: 1.3;
+            
+            @include desktop {
+                font-size: 2.4rem;
+            }
+        }
+        
+        p {
+            color: $gray-600;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin: 0 0 $spacing-lg 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     }
 }
 
 .resumen-propiedad {
     .descripcion {
-        margin: 2rem;
+        margin: $spacing-lg 0;
+        color: $gray-600;
+        line-height: 1.7;
+        
+        p {
+            margin-bottom: $spacing-md;
+        }
     }
 }
 
 .precio {
-    color: $verde;
+    color: $accent;
     font-weight: $bold;
-    font-size: 3rem;
-    margin-left: 2rem;
-}   
+    font-size: 2.8rem;
+    margin: 0 0 $spacing-lg 0;
+    text-align: left;
+    
+    &::before {
+        content: 'Q.';
+        font-size: 2rem;
+        color: $gray-500;
+        font-weight: $medium;
+    }
+    
+    @include desktop {
+        font-size: 3.2rem;
+    }
+}
 
 .iconos-caracteristicas {
     display: flex;
     list-style: none;
     padding: 0;
-
+    margin: $spacing-lg 0;
+    background: $gray-50;
+    border-radius: $radius;
+    padding: $spacing-md;
+    gap: $spacing-sm;
+    
     li {
         flex: 1;
-        display: flex;
-        justify-content: center;
-
-        img {
-            flex: 0 0 3rem;
-            margin-right: 1rem;
+        @include flex-center;
+        flex-direction: column;
+        gap: $spacing-xs;
+        text-align: center;
+        
+        &:not(:last-child) {
+            border-right: 1px solid $gray-200;
         }
+        
+        .icono {
+            width: 2.4rem;
+            height: 2.4rem;
+            filter: brightness(0) saturate(100%) invert(45%) sepia(92%) saturate(1352%) hue-rotate(87deg) brightness(98%) contrast(86%);
+            transition: all $transition-base;
+        }
+        
         p {
-            font-weight: $black;
+            font-weight: $semibold;
+            font-size: 1.4rem;
+            color: $gray-700;
+            margin: 0;
         }
+        
+        &:hover {
+            .icono {
+                transform: scale(1.1);
+                filter: brightness(0) saturate(100%) invert(42%) sepia(78%) saturate(1200%) hue-rotate(87deg) brightness(98%) contrast(86%);
+            }
+        }
+    }
+}
+
+// Variante para listado completo
+.anuncio--featured {
+    border: 2px solid $secondary;
+    
+    .anuncio__badge {
+        background: linear-gradient(135deg, $secondary, $secondary-light);
+    }
+    
+    &::before {
+        content: '★ Destacada';
+        position: absolute;
+        top: -1px;
+        left: $spacing-lg;
+        background: $secondary;
+        color: $blanco;
+        padding: $spacing-xs $spacing-md;
+        border-radius: 0 0 $radius $radius;
+        font-size: 1.2rem;
+        font-weight: $semibold;
+        z-index: 3;
+    }
+}
+
+// Skeleton loading para mejor UX
+.anuncio--loading {
+    .anuncio__image {
+        background: linear-gradient(90deg, $gray-200 25%, $gray-100 50%, $gray-200 75%);
+        background-size: 200% 100%;
+        animation: skeleton-loading 1.5s infinite;
+    }
+    
+    .contenido-anuncio {
+        h3, p {
+            background: linear-gradient(90deg, $gray-200 25%, $gray-100 50%, $gray-200 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: $radius-sm;
+            color: transparent;
+        }
+        
+        h3 {
+            height: 2.4rem;
+            margin-bottom: $spacing-sm;
+        }
+        
+        p {
+            height: 4rem;
+        }
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
     }
 }

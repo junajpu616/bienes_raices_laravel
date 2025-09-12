@@ -3,21 +3,181 @@
 @use '../base/mixins' as *;
 
 .footer {
-    padding: calc($separacion / 2);
-    background-color: $grisOscuro;
+    background: linear-gradient(135deg, $gray-900, $gray-800);
+    color: $gray-300;
     margin-bottom: 0;
-
-    .contenedor-footer {
-        padding-top: calc($separacion / 2);
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, $gray-600, transparent);
     }
+    
+    &__content {
+        display: grid;
+        gap: $spacing-xl;
+        padding: $spacing-3xl 0 $spacing-xl 0;
+        
+        @include tablet {
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: $spacing-2xl;
+        }
+    }
+    
+    &__section {
+        h3, h4 {
+            color: $blanco;
+            font-size: 2.0rem;
+            font-weight: $semibold;
+            margin-bottom: $spacing-md;
+            text-align: left;
+        }
+        
+        h3 {
+            font-size: 2.4rem;
+            @include text-gradient($secondary, $secondary-light);
+        }
+        
+        p {
+            color: $gray-400;
+            line-height: 1.7;
+            margin-bottom: $spacing-lg;
+        }
+    }
+    
+    &__social {
+        @include flex-center;
+        gap: $spacing-md;
+        justify-content: flex-start;
+        
+        a {
+            width: 4rem;
+            height: 4rem;
+            @include flex-center;
+            background: rgba($blanco, 0.1);
+            border-radius: $radius-full;
+            color: $gray-300;
+            transition: all $transition-base;
+            
+            &:hover {
+                background: $secondary;
+                color: $blanco;
+                transform: translateY(-2px);
+                box-shadow: $shadow-lg;
+            }
+            
+            i {
+                font-size: 1.8rem;
+            }
+        }
+    }
+    
+    &__nav {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+        
+        a {
+            color: $gray-400;
+            text-decoration: none;
+            padding: $spacing-xs 0;
+            transition: all $transition-base;
+            position: relative;
+            
+            &:hover {
+                color: $secondary;
+                transform: translateX(5px);
+            }
+            
+            &::before {
+                content: '→';
+                position: absolute;
+                left: -2rem;
+                opacity: 0;
+                transition: all $transition-base;
+            }
+            
+            &:hover::before {
+                opacity: 1;
+                color: $secondary;
+            }
+        }
+    }
+    
+    &__contact {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-sm;
+        
+        p {
+            @include flex-center;
+            gap: $spacing-sm;
+            justify-content: flex-start;
+            margin: 0;
+            color: $gray-400;
+            
+            i {
+                width: 2rem;
+                color: $secondary;
+                font-size: 1.6rem;
+            }
+        }
+    }
+    
+    &__bottom {
+        padding: $spacing-lg 0;
+        border-top: 1px solid $gray-700;
+        text-align: center;
+        
+        .copyright {
+            color: $gray-500;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+    }
+}
+
+// Navegación en footer (legacy support)
+.contenedor-footer {
     .navegacion {
         visibility: visible;
         opacity: 1;
         height: auto;
+        @include flex-center;
+        flex-wrap: wrap;
+        gap: $spacing-lg;
+        padding: $spacing-xl 0 $spacing-lg 0;
+        
+        a {
+            color: $gray-400;
+            text-decoration: none;
+            font-size: 1.6rem;
+            transition: all $transition-base;
+            
+            &:hover {
+                color: $secondary;
+                transform: translateY(-2px);
+            }
+        }
     }
-    .copyright {
-        color: $blanco;
-        text-align: center;
+}
+
+// Animaciones
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
     }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.footer__social a:hover {
+    animation: float 0.6s ease-in-out;
 }
 

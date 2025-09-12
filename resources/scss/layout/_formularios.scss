@@ -3,52 +3,344 @@
 @use '../base/mixins' as *;
 
 .formulario {
-    p {
+    background: $blanco;
+    padding: $spacing-2xl;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-lg;
+    margin: $spacing-xl 0;
+    
+    &__header {
+        text-align: center;
+        margin-bottom: $spacing-xl;
+        
+        h2 {
+            color: $gray-900;
+            margin-bottom: $spacing-sm;
+        }
+        
+        p {
+            color: $gray-600;
+            font-size: 1.6rem;
+            margin: 0;
+        }
+    }
+    
+    &__group {
+        margin-bottom: $spacing-lg;
+        
+        &--inline {
+            @include tablet {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: $spacing-lg;
+            }
+        }
+        
+        &--triple {
+            @include tablet {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: $spacing-lg;
+            }
+        }
+    }
+    
+    &__field {
+        position: relative;
+        margin-bottom: $spacing-lg;
+        
+        &--floating {
+            .formulario__input:focus + .formulario__label,
+            .formulario__input:not(:placeholder-shown) + .formulario__label {
+                transform: translateY(-2.8rem) scale(0.85);
+                background: $blanco;
+                padding: 0 $spacing-xs;
+                color: $primary;
+            }
+        }
+        
+        &--error {
+            .formulario__input,
+            .formulario__textarea,
+            .formulario__select {
+                border-color: $danger;
+                box-shadow: 0 0 0 3px rgba($danger, 0.1);
+            }
+            
+            .formulario__label {
+                color: $danger;
+            }
+        }
+        
+        &--success {
+            .formulario__input,
+            .formulario__textarea,
+            .formulario__select {
+                border-color: $success;
+                box-shadow: 0 0 0 3px rgba($success, 0.1);
+            }
+        }
+    }
+    
+    &__label {
+        display: block;
+        font-weight: $semibold;
+        color: $gray-700;
+        margin-bottom: $spacing-xs;
         font-size: 1.4rem;
-        color: $grisOscuro;
-        margin: 2rem 0 0 0;
-    }
-
-    fieldset {
-        border-radius: 1rem;
-    }
-
-    legend {
-        font-size: 2rem;
-        color: $grisOscuro;
-    }
-
-    label {
-        font-weight: $bold;
         text-transform: uppercase;
-        display: block;
+        letter-spacing: 0.5px;
+        
+        &--floating {
+            position: absolute;
+            top: 1.2rem;
+            left: $spacing-md;
+            background: transparent;
+            transition: all $transition-base;
+            pointer-events: none;
+            color: $gray-500;
+            text-transform: none;
+            font-size: 1.6rem;
+            font-weight: $regular;
+        }
+        
+        &--required::after {
+            content: ' *';
+            color: $danger;
+        }
     }
-
-    input:not([type="submit"]), 
-    textarea, 
-    select {
-        padding: 1rem;
-        display: block;
-        width: 100%;
-        background-color: $blanco;
-        border: .1rem solid $gris;
-        border-radius: 1rem;
-        margin-bottom: 2rem;
+    
+    &__input,
+    &__textarea,
+    &__select {
+        @include input-base;
+        
+        &--error {
+            border-color: $danger;
+            box-shadow: 0 0 0 3px rgba($danger, 0.1);
+        }
+        
+        &--success {
+            border-color: $success;
+            box-shadow: 0 0 0 3px rgba($success, 0.1);
+        }
+        
+        &:disabled {
+            background-color: $gray-100;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
     }
-
-    textarea {
-        height: 20rem;
+    
+    &__textarea {
+        min-height: 12rem;
+        resize: vertical;
+        font-family: $fuente_principal;
     }
-
-    .forma-contacto {
-        max-width: 30rem;
+    
+    &__select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right $spacing-md center;
+        background-size: 1.6rem;
+        padding-right: 4rem;
+    }
+    
+    &__error {
+        color: $danger;
+        font-size: 1.3rem;
+        margin-top: $spacing-xs;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        gap: $spacing-xs;
+        
+        &::before {
+            content: '⚠';
+            font-size: 1.4rem;
+        }
     }
+    
+    &__help {
+        color: $gray-500;
+        font-size: 1.3rem;
+        margin-top: $spacing-xs;
+    }
+    
+    &__actions {
+        margin-top: $spacing-xl;
+        @include flex-center;
+        gap: $spacing-md;
+        
+        @include tablet {
+            justify-content: flex-end;
+        }
+    }
+    
+    // Tipos específicos de input
+    &__checkbox,
+    &__radio {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        margin-bottom: $spacing-md;
+        cursor: pointer;
+        
+        input {
+            appearance: none;
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid $gray-300;
+            transition: all $transition-base;
+            position: relative;
+            
+            &:checked {
+                border-color: $primary;
+                background-color: $primary;
+            }
+            
+            &:focus {
+                box-shadow: 0 0 0 3px rgba($primary, 0.1);
+            }
+        }
+        
+        label {
+            font-weight: $regular;
+            text-transform: none;
+            margin: 0;
+            font-size: 1.6rem;
+            cursor: pointer;
+        }
+    }
+    
+    &__checkbox input {
+        border-radius: $radius-sm;
+        
+        &:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: $blanco;
+            font-size: 1.4rem;
+            font-weight: $bold;
+        }
+    }
+    
+    &__radio input {
+        border-radius: $radius-full;
+        
+        &:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0.8rem;
+            height: 0.8rem;
+            background: $blanco;
+            border-radius: $radius-full;
+        }
+    }
+    
+    // Formularios específicos
+    &--login,
+    &--register {
+        max-width: 48rem;
+        margin: $spacing-xl auto;
+        
+        .formulario__header {
+            border-bottom: 1px solid $gray-200;
+            padding-bottom: $spacing-lg;
+        }
+    }
+    
+    &--contact {
+        .forma-contacto {
+            display: flex;
+            gap: $spacing-lg;
+            align-items: center;
+            margin: $spacing-md 0;
+            
+            @include telefono {
+                flex-direction: column;
+                align-items: stretch;
+                gap: $spacing-sm;
+            }
+        }
+    }
+}
 
-    input[type="radio"] {
-        margin: 0;
-        width: auto;
+// Fieldsets modernos
+fieldset {
+    border: 2px solid $gray-200;
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+    margin-bottom: $spacing-lg;
+    
+    legend {
+        font-size: 1.8rem;
+        font-weight: $semibold;
+        color: $gray-800;
+        padding: 0 $spacing-md;
+        background: $blanco;
     }
+}
+
+// Estados de validación
+.field-valid {
+    .formulario__input,
+    .formulario__textarea,
+    .formulario__select {
+        border-color: $success;
+        box-shadow: 0 0 0 3px rgba($success, 0.1);
+    }
+}
+
+.field-invalid {
+    .formulario__input,
+    .formulario__textarea,
+    .formulario__select {
+        border-color: $danger;
+        box-shadow: 0 0 0 3px rgba($danger, 0.1);
+    }
+}
+
+// Animaciones
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.field-invalid {
+    animation: shake 0.5s ease-in-out;
+}
+
+// Estilos adicionales para formularios
+.texto-centrado {
+    text-align: center;
+    margin-top: $spacing-lg;
+    color: $gray-600;
+    font-size: 1.5rem;
+}
+
+.enlace {
+    color: $primary;
+    text-decoration: none;
+    font-weight: $semibold;
+    transition: all $transition-base;
+    
+    &:hover {
+        color: color.adjust($primary, $lightness: -10%);
+        text-decoration: underline;
+    }
+}
+
+.acciones {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-lg;
+    border-top: 1px solid $gray-200;
 }

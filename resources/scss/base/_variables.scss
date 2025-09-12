@@ -1,26 +1,128 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
 // Fuentes
-$fuente_principal: 'Lato', sans-serif;
+$fuente_principal: 'Inter', sans-serif;
+$fuente_heading: 'Playfair Display', serif;
 
 // Tamaño de Media Queries
 $telefono: 480px;
 $tablet: 768px;
 $desktop: 1024px;
+$desktop_xl: 1440px;
 
-// Colores
-$negro: #000000;
-$amarillo: #E08709;;
-$verde: #71B100;
-$blanco: #FFFFFF;
-$azul: #366ED6;
-$gris: #e1e1e1;
-$grisOscuro: #333333;
-$rojo: rgb(189,7,7);
+// Paleta de colores moderna
+$primary: #2563eb;        // Azul moderno
+$primary-light: #3b82f6;
+$primary-dark: #1d4ed8;
+
+$secondary: #f59e0b;      // Dorado/Amarillo
+$secondary-light: #fbbf24;
+$secondary-dark: #d97706;
+
+$accent: #10b981;         // Verde esmeralda
+$accent-light: #34d399;
+$accent-dark: #059669;
+
+$danger: #ef4444;         // Rojo moderno
+$danger-light: #f87171;
+$danger-dark: #dc2626;
+
+$warning: #f59e0b;
+$success: #10b981;
+$info: #3b82f6;
+
+// Grises modernos
+$gray-50: #f9fafb;
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+$gray-800: #1f2937;
+$gray-900: #111827;
+
+// Colores legacy (para compatibilidad)
+$negro: $gray-900;
+$amarillo: $secondary;
+$verde: $accent;
+$blanco: #ffffff;
+$azul: $primary;
+$gris: $gray-200;
+$grisOscuro: $gray-800;
+$rojo: $danger;
+
+// Espaciado
 $separacion: 5rem;
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$spacing-lg: 2rem;
+$spacing-xl: 3rem;
+$spacing-2xl: 4rem;
+$spacing-3xl: 6rem;
 
 // Fuentes
 $delgada: 300;
-$regular : 400;
+$regular: 400;
+$medium: 500;
+$semibold: 600;
 $bold: 700;
-$black: 900
+$extrabold: 800;
+$black: 900;
+
+// Sombras
+$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+$shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+// Border radius
+$radius-sm: 0.375rem;
+$radius: 0.5rem;
+$radius-md: 0.75rem;
+$radius-lg: 1rem;
+$radius-xl: 1.5rem;
+$radius-2xl: 2rem;
+$radius-full: 9999px;
+
+// Transiciones
+// Transitions
+$transition-fast: 150ms ease-in-out;
+$transition-base: 250ms ease-in-out;
+$transition-slow: 300ms ease-in-out;
+
+// ===============================
+// Accessibility Utilities
+// ===============================
+
+// Screen reader only class - hides content visually but keeps it accessible
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+// Make sr-only content visible when focused (for keyboard navigation)
+.sr-only:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0.5rem 1rem !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    background-color: $primary !important;
+    color: white !important;
+    border-radius: $radius-md !important;
+    z-index: 9999 !important;
+}

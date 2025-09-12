@@ -2,29 +2,44 @@
 @use '../base/variables' as *;
 @use '../base/mixins' as *;
 
-.inicio {
-    background-image: url(../../img/header.jpg);    
-}
-
-// .webp .inicio {
-//     background-image: url(../../img/header.wepb);
-// }
-
 .header {
-    background-color: $grisOscuro;
-    padding: 1rem 0 3rem 0;
-
+    background: linear-gradient(135deg, $gray-900 0%, $gray-800 100%);
+    padding: 0;
+    position: relative;
+    z-index: 100;
+    
     &.inicio {
+        background: linear-gradient(
+            135deg, 
+            rgba($gray-900, 0.8) 0%, 
+            rgba($gray-800, 0.6) 100%
+        ), url(../../img/header.jpg);
         background-position: center center;
         background-size: cover;
+        background-attachment: fixed;
+        min-height: 70vh;
+        
         @include tablet {
-            min-height: 69rem;
+            min-height: 80vh;
         }
-
-        .contenido-header {
-            @include tablet {
-                min-height: 69rem;
-            }
+        
+        @include desktop {
+            min-height: 90vh;
+        }
+        
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                180deg, 
+                transparent 0%, 
+                rgba($gray-900, 0.3) 100%
+            );
+            pointer-events: none;
         }
     }
 }
@@ -33,12 +48,267 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: inherit;
+    position: relative;
+    z-index: 2;
 
     h1 {
         text-align: left;
         color: $blanco;
         font-weight: $bold;
-        line-height: 2;
-        max-width: 60rem;
+        line-height: 1.2;
+        max-width: 70rem;
+        margin-top: auto;
+        margin-bottom: $spacing-3xl;
+        font-size: clamp(3.2rem, 6vw, 5.6rem);
+        
+        @include text-gradient($blanco, $gray-200);
+        
+        @include tablet {
+            font-size: clamp(4rem, 8vw, 7.2rem);
+        }
+    }
+}
+
+// Navbar moderna
+.navbar {
+    padding: $spacing-md 0;
+    transition: all $transition-slow;
+    
+    &--scrolled {
+        background: rgba($blanco, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: $shadow-md;
+        
+        .barra a img {
+            filter: brightness(0.2);
+        }
+        
+        .navegacion a {
+            color: $gray-700;
+            
+            &:hover {
+                color: $primary;
+            }
+        }
+        
+        .theme-toggle .theme-toggle-track {
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+            
+            .theme-toggle-thumb {
+                background: #64748b;
+                
+                .sun-icon {
+                    color: #64748b;
+                }
+            }
+        }
+    }
+}
+
+.barra {
+    @include flex-between;
+    position: relative;
+    
+    a img {
+        height: 4rem;
+        width: auto;
+        transition: all $transition-base;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+.mobile-menu {
+    display: block;
+    cursor: pointer;
+    padding: $spacing-xs;
+    
+    @include tablet {
+        display: none;
+    }
+    
+    img {
+        width: 3rem;
+        height: 3rem;
+        filter: brightness(0) invert(1);
+        transition: transform $transition-base;
+        
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+.derecha {
+    @include flex-center;
+    gap: $spacing-lg;
+    
+    @include telefono {
+        display: none;
+        
+        &.active {
+            display: flex;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba($blanco, 0.98);
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            padding: $spacing-lg;
+            box-shadow: $shadow-lg;
+            border-radius: 0 0 $radius-lg $radius-lg;
+            
+            .navegacion {
+                flex-direction: column;
+                width: 100%;
+                
+                a {
+                    color: $gray-700;
+                    padding: $spacing-md 0;
+                    border-bottom: 1px solid $gray-200;
+                    width: 100%;
+                    text-align: center;
+                    
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+    
+    @include tablet {
+        display: flex !important;
+        position: static;
+        background: none;
+        backdrop-filter: none;
+        flex-direction: row;
+        padding: 0;
+        box-shadow: none;
+        border-radius: 0;
+    }
+}
+
+.theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    
+    &:focus-visible {
+        outline: 2px solid $primary;
+        outline-offset: 2px;
+        border-radius: $radius-full;
+    }
+}
+
+.theme-toggle-track {
+    width: 4.8rem;
+    height: 2.4rem;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    border-radius: $radius-full;
+    position: relative;
+    transition: all $transition-base;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    
+    .dark-mode & {
+        background: linear-gradient(135deg, #1e293b, #334155);
+        border-color: rgba(148, 163, 184, 0.3);
+    }
+}
+
+.theme-toggle-thumb {
+    width: 2rem;
+    height: 2rem;
+    background: white;
+    border-radius: $radius-full;
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+    transition: all $transition-base;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .dark-mode & {
+        transform: translateY(-50%) translateX(2.4rem);
+        background: #0f172a;
+    }
+    
+    svg {
+        width: 1.2rem;
+        height: 1.2rem;
+        transition: all $transition-base;
+    }
+    
+    .sun-icon {
+        color: #f59e0b;
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        
+        .dark-mode & {
+            opacity: 0;
+            transform: scale(0.8) rotate(180deg);
+        }
+    }
+    
+    .moon-icon {
+        color: #64748b;
+        opacity: 0;
+        transform: scale(0.8) rotate(-180deg);
+        position: absolute;
+        
+        .dark-mode & {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            color: #94a3b8;
+        }
+    }
+}
+
+.theme-toggle:hover {
+    .theme-toggle-track {
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 0 0 3px rgba(59, 130, 246, 0.1);
+        
+        .dark-mode & {
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 0 3px rgba(148, 163, 184, 0.1);
+        }
+    }
+    
+    .theme-toggle-thumb {
+        transform: translateY(-50%) scale(1.05);
+        
+        .dark-mode & {
+            transform: translateY(-50%) translateX(2.4rem) scale(1.05);
+        }
+    }
+}
+
+// Efectos de scroll para hero
+.hero-content {
+    opacity: 0;
+    transform: translateY(3rem);
+    animation: fadeInUp 1s ease-out 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Parallax effect
+@include desktop {
+    .header.inicio {
+        background-attachment: fixed;
     }
 }
