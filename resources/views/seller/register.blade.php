@@ -20,30 +20,115 @@
         <fieldset>
             <legend>Información Personal</legend>
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" placeholder="Tu Nombre" value="{{ old('nombre') }}" required>
+            <div class="formulario__group--inline">
+                <div class="formulario__field {{ $errors->has('nombre') ? 'formulario__field--error' : '' }}">
+                    <input 
+                        type="text" 
+                        name="nombre" 
+                        id="nombre"
+                        class="formulario__input"
+                        placeholder=" "
+                        value="{{ old('nombre') }}"
+                        required
+                    >
+                    <label for="nombre" class="formulario__label formulario__label--floating">Nombre</label>
+                    @error('nombre')
+                        <div class="formulario__error">{{ $message }}</div>
+                    @enderror
+                </div>
 
-            <label for="apellido">Apellido:</label>
-            <input type="text" name="apellido" id="apellido" placeholder="Tu Apellido" value="{{ old('apellido') }}" required>
+                <div class="formulario__field {{ $errors->has('apellido') ? 'formulario__field--error' : '' }}">
+                    <input 
+                        type="text" 
+                        name="apellido" 
+                        id="apellido"
+                        class="formulario__input"
+                        placeholder=" "
+                        value="{{ old('apellido') }}"
+                        required
+                    >
+                    <label for="apellido" class="formulario__label formulario__label--floating">Apellido</label>
+                    @error('apellido')
+                        <div class="formulario__error">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
 
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" name="telefono" id="telefono" placeholder="Tu Teléfono" value="{{ old('telefono') }}" required>
+            <div class="formulario__group--inline">
+                <div class="formulario__field {{ $errors->has('telefono') ? 'formulario__field--error' : '' }}">
+                    <input 
+                        type="tel" 
+                        name="telefono" 
+                        id="telefono"
+                        class="formulario__input"
+                        placeholder=" "
+                        value="{{ old('telefono') }}"
+                        required
+                    >
+                    <label for="telefono" class="formulario__label formulario__label--floating">Teléfono</label>
+                    @error('telefono')
+                        <div class="formulario__error">{{ $message }}</div>
+                    @enderror
+                </div>
 
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" placeholder="Tu Email" value="{{ old('email') }}" required>
+                <div class="formulario__field {{ $errors->has('email') ? 'formulario__field--error' : '' }}">
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="email"
+                        class="formulario__input"
+                        placeholder=" "
+                        value="{{ old('email') }}"
+                        required
+                    >
+                    <label for="email" class="formulario__label formulario__label--floating">Email</label>
+                    @error('email')
+                        <div class="formulario__error">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" placeholder="Tu Password" required>
+            <div class="formulario__group--inline">
+                <div class="formulario__field {{ $errors->has('password') ? 'formulario__field--error' : '' }}">
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="password"
+                        class="formulario__input"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="password" class="formulario__label formulario__label--floating">Password</label>
+                    <div class="formulario__help">Mínimo 8 caracteres</div>
+                    @error('password')
+                        <div class="formulario__error">{{ $message }}</div>
+                    @enderror
+                </div>
 
-            <label for="password_confirmation">Confirmar Password:</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirma Tu Password" required>
+                <div class="formulario__field {{ $errors->has('password_confirmation') ? 'formulario__field--error' : '' }}">
+                    <input 
+                        type="password" 
+                        name="password_confirmation" 
+                        id="password_confirmation"
+                        class="formulario__input"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="password_confirmation" class="formulario__label formulario__label--floating">Confirmar Password</label>
+                    @error('password_confirmation')
+                        <div class="formulario__error">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
         </fieldset>
 
-        <input type="submit" value="Crear Cuenta" class="boton boton-verde">
+        <div class="formulario__actions">
+            <input type="submit" value="Crear Cuenta de Vendedor" class="boton boton-verde">
+        </div>
     </form>
 
-    <div class="acciones">
-        <a href="{{ route('seller.login') }}">¿Ya tienes cuenta? Inicia Sesión</a>
+    <div class="acciones texto-centrado">
+        <a href="{{ route('seller.login') }}" class="enlace">¿Ya tienes cuenta? Inicia Sesión</a>
     </div>
 </main>
 @endsection
