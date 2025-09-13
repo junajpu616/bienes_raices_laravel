@@ -2,93 +2,192 @@
 @use '../base/variables' as *;
 @use '../base/mixins' as *;
 
-.derecha {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    @include tablet {
-        align-items: flex-end;
-    }
-
-    .dark-mode-boton {
-        width: 3rem;
-        margin-top: 3rem;
-        margin-bottom: 2rem;
-        filter: invert(100%);
-
-        &:hover {
-            cursor: pointer;
-        }
-
-        @include tablet {
-            margin-top: 0;
-        }
-    }
-}
-
-.barra {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 3rem;
-    @include tablet {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
-    }
-}
-
 .navegacion {
-
-    visibility: hidden;
-    opacity: 0;
-    height: 0;
-    transition: visibility .3s ease-in-out, opacity .5s linear, height .5s linear;
-
-    @include tablet {
-        display: flex;
-        align-items: center;
-        opacity: 1;
-        visibility: visible;
+    @include flex-center;
+    gap: $spacing-lg;
+    
+    @include telefono {
+        display: none;
+        flex-direction: column;
+        gap: $spacing-md;
+        width: 100%;
+        
+        &.mostrar {
+            display: flex;
+        }
     }
-    a{
+    
+    @include tablet {
+        display: flex !important;
+        flex-direction: row;
+        gap: $spacing-xl;
+    }
+
+    a {
         color: $blanco;
         text-decoration: none;
-        font-size: 2.2rem;
-        display: block;
-        text-align: center;
-
+        font-size: 1.6rem;
+        font-weight: $medium;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $radius;
+        transition: all $transition-base;
+        position: relative;
+        
         @include tablet {
-            margin-right: 2rem;
-            font-size: 1.8rem;
-
-            &:last-of-type {
-                margin-right: 0;
+            font-size: 1.7rem;
+        }
+        
+        &:hover {
+            color: $secondary;
+            transform: translateY(-2px);
+        }
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, $secondary, $secondary-light);
+            transition: all $transition-base;
+            transform: translateX(-50%);
+        }
+        
+        &:hover::after,
+        &.active::after {
+            width: 100%;
+        }
+        
+        &.active {
+            color: $secondary;
+        }
+    }
+    
+    // Estilos para formularios de logout
+    form {
+        margin: 0;
+        
+        input[type="submit"] {
+            background: none;
+            border: none;
+            color: $blanco;
+            font-size: 1.6rem;
+            font-weight: $medium;
+            cursor: pointer;
+            padding: $spacing-xs $spacing-sm;
+            border-radius: $radius;
+            transition: all $transition-base;
+            font-family: $fuente_principal;
+            
+            @include tablet {
+                font-size: 1.7rem;
+            }
+            
+            &:hover {
+                color: $danger;
+                background: rgba($danger, 0.1);
+                transform: translateY(-2px);
             }
         }
     }
 }
 
-/* Menu de hamburguesa */
-.mobile-menu {
-    @include tablet {
-        display: none;
+// Dropdown para menús complejos
+.nav-dropdown {
+    position: relative;
+    
+    &:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
     }
-
-    img {
-        width: 5rem;
+    
+    .dropdown-toggle {
+        @include flex-center;
+        gap: $spacing-xs;
+        
+        &::after {
+            content: '▼';
+            font-size: 1.2rem;
+            transition: transform $transition-base;
+        }
+    }
+    
+    &:hover .dropdown-toggle::after {
+        transform: rotate(180deg);
     }
 }
 
-.mostrar {
-    // display: flex;
-    // flex-direction: column;
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(1rem);
+    background: $blanco;
+    box-shadow: $shadow-lg;
+    border-radius: $radius-lg;
+    padding: $spacing-sm 0;
+    min-width: 20rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all $transition-base;
+    z-index: 1000;
+    
+    a {
+        color: $gray-700;
+        padding: $spacing-sm $spacing-lg;
+        display: block;
+        width: 100%;
+        
+        &:hover {
+            background: $gray-50;
+            color: $primary;
+        }
+        
+        &::after {
+            display: none;
+        }
+    }
+}
 
-    // @include tablet {
-    //     flex-direction: row;
-    // }
-    visibility: visible;
-    opacity: 1;
-    height: auto;
+// Indicador de usuario activo
+.user-indicator {
+    @include flex-center;
+    gap: $spacing-sm;
+    padding: $spacing-xs $spacing-md;
+    background: rgba($blanco, 0.1);
+    border-radius: $radius-full;
+    
+    .avatar {
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: $radius-full;
+        background: $secondary;
+        @include flex-center;
+        color: $blanco;
+        font-weight: $bold;
+        font-size: 1.4rem;
+    }
+    
+    .user-name {
+        font-size: 1.4rem;
+        font-weight: $medium;
+    }
+}
+
+// Animaciones para mobile menu
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-1rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navegacion.mostrar {
+    animation: slideDown 0.3s ease-out;
 }

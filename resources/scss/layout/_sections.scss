@@ -1,0 +1,268 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as *;
+
+// Secciones principales
+.section {
+    padding: $spacing-3xl 0;
+    
+    &--small {
+        padding: $spacing-xl 0;
+    }
+    
+    &--large {
+        padding: 8rem 0;
+    }
+    
+    &__header {
+        text-align: center;
+        margin-bottom: $spacing-2xl;
+        
+        h2, h3 {
+            margin-bottom: $spacing-sm;
+        }
+        
+        p {
+            color: $gray-600;
+            font-size: 1.8rem;
+            max-width: 60rem;
+            margin: 0 auto;
+        }
+    }
+}
+
+// Sección hero de llamada a la acción
+.hero-cta {
+    background: linear-gradient(
+        135deg,
+        rgba($primary, 0.9) 0%,
+        rgba($primary-dark, 0.8) 100%
+    ), url('../../img/encuentra.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    padding: $spacing-3xl 0;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            45deg,
+            rgba($primary, 0.8),
+            rgba($secondary, 0.6)
+        );
+    }
+    
+    &__content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 80rem;
+        margin: 0 auto;
+        
+        h2 {
+            color: $blanco;
+            font-size: clamp(3.2rem, 5vw, 4.8rem);
+            margin-bottom: $spacing-lg;
+            @include text-gradient($blanco, $gray-100);
+        }
+        
+        p {
+            color: rgba($blanco, 0.9);
+            font-size: 1.8rem;
+            margin-bottom: $spacing-xl;
+            line-height: 1.6;
+        }
+    }
+}
+
+// Grid para blog y testimoniales
+.blog-testimonials {
+    display: grid;
+    gap: $spacing-3xl;
+    
+    @include desktop {
+        grid-template-columns: 2fr 1fr;
+        gap: $spacing-2xl;
+    }
+}
+
+// Sección de blog
+.blog-section {
+    .blog-grid {
+        display: grid;
+        gap: $spacing-xl;
+        
+        @include tablet {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+.blog-card {
+    @include card-base;
+    overflow: hidden;
+    transition: all $transition-slow;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $shadow-xl;
+        
+        .blog-card__image img {
+            transform: scale(1.05);
+        }
+    }
+    
+    &__image {
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        margin: (-$spacing-lg) (-$spacing-lg) $spacing-lg (-$spacing-lg);
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform $transition-slow;
+        }
+    }
+    
+    &__content {
+        padding: 0;
+    }
+    
+    &__meta {
+        @include flex-center;
+        gap: $spacing-md;
+        justify-content: flex-start;
+        margin-bottom: $spacing-sm;
+        font-size: 1.3rem;
+        color: $gray-500;
+        
+        time {
+            color: $secondary;
+            font-weight: $medium;
+        }
+    }
+    
+    h4 {
+        margin: 0 0 $spacing-sm 0;
+        text-align: left;
+        
+        a {
+            color: $gray-900;
+            transition: color $transition-base;
+            
+            &:hover {
+                color: $primary;
+            }
+        }
+    }
+    
+    p {
+        color: $gray-600;
+        margin-bottom: $spacing-lg;
+        line-height: 1.6;
+    }
+}
+
+// Sección de testimoniales
+.testimonials-section {
+    .testimonials {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-lg;
+    }
+}
+
+.testimonial-card {
+    @include card-base;
+    position: relative;
+    
+    &__quote {
+        position: absolute;
+        top: -1rem;
+        left: $spacing-lg;
+        width: 4rem;
+        height: 4rem;
+        background: $secondary;
+        border-radius: $radius-full;
+        @include flex-center;
+        color: $blanco;
+        
+        svg {
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+    
+    blockquote {
+        font-style: italic;
+        font-size: 1.6rem;
+        line-height: 1.7;
+        color: $gray-700;
+        margin: $spacing-lg 0 $spacing-xl 0;
+        
+        &::before,
+        &::after {
+            display: none;
+        }
+    }
+    
+    &__author {
+        @include flex-center;
+        gap: $spacing-md;
+        justify-content: flex-start;
+        
+        .author-avatar {
+            width: 5rem;
+            height: 5rem;
+            background: linear-gradient(135deg, $primary, $primary-light);
+            border-radius: $radius-full;
+            @include flex-center;
+            color: $blanco;
+            font-weight: $bold;
+            font-size: 1.8rem;
+        }
+        
+        .author-info {
+            cite {
+                display: block;
+                font-weight: $semibold;
+                color: $gray-900;
+                font-style: normal;
+                margin-bottom: $spacing-xs;
+            }
+            
+            span {
+                color: $gray-500;
+                font-size: 1.4rem;
+            }
+        }
+    }
+}
+
+// Backgrounds alternativos
+.bg-gray {
+    background-color: $gray-50;
+}
+
+.bg-white {
+    background-color: $blanco;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, $primary, $primary-light);
+    color: $blanco;
+    
+    h2, h3, h4 {
+        color: $blanco;
+    }
+    
+    p {
+        color: rgba($blanco, 0.9);
+    }
+}

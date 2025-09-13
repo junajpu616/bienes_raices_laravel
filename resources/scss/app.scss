@@ -6,7 +6,7 @@
 @use 'base/botones';
 @use 'base/darkMode';
 
-/* UI */
+/* UI Components */
 @use 'layout/header';
 @use 'layout/footer';
 @use 'layout/navegacion';
@@ -16,8 +16,9 @@
 @use 'layout/inferior';
 @use 'layout/testimoniales';
 @use 'layout/formularios';
+@use 'layout/sections';
 
-/* Paginas Internas */
+/* Internal Pages */
 @use 'internas/nosotros';
 @use 'internas/admin';
 @use 'internas/seller';
