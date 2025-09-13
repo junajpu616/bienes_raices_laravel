@@ -32,7 +32,7 @@
                         <div class="contenido-anuncio">
                             <h3>{{ $propiedad->titulo }}</h3>
                             <p>{{ $propiedad->descripcion }}</p>
-                            <p class="precio">${{ number_format($propiedad->precio) }}</p>
+                            <p class="precio">{{ number_format($propiedad->precio) }}</p>
 
                             <ul class="iconos-caracteristicas">
                                 <li>
@@ -50,8 +50,8 @@
                             </ul>
 
                             <div class="acciones-propiedad">
-                                <a href="{{ route('seller.properties.edit', $propiedad) }}" class="boton-amarillo-block">Editar</a>
-                                <form method="POST" action="{{ route('seller.properties.destroy', $propiedad) }}" style="display: inline;">
+                                <a href="{{ route('admin.edit', $propiedad) }}" class="boton-amarillo-block">Editar</a>
+                                <form method="POST" action="{{ route('admin.destroy', $propiedad) }}" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="boton-rojo-block" onclick="return confirm('¿Estás seguro de eliminar esta propiedad?')">Eliminar</button>

@@ -145,17 +145,18 @@ function mostrarMetodosContacto(e) {
         if (e.target.value === 'telefono') {
             contactoDiv.innerHTML = `
             <div class="formulario__field">
-                <label for="telefono" class="formulario__label formulario__label--required">Número de Teléfono:</label>
+                <label for="telefono" class="formulario__label formulario__label--required" style="padding: 0 0 5rem 0;">Número de Teléfono:</label>
+                <br>
                 <input type="tel" placeholder="Tu Teléfono" id="telefono" name="contacto[telefono]" class="formulario__input" required>
             </div>
-            <p class="formulario__help">Elija la fecha y la hora para la llamada</p>
+            <p class="formulario__help" style="margin: 0 0 5rem 0;">Elija la fecha y la hora para la llamada</p>
             <div class="formulario__group--inline">
                 <div class="formulario__field">
-                    <label for="fecha" class="formulario__label formulario__label--required">Fecha:</label>
+                    <label for="fecha" class="formulario__label formulario__label--required" style="padding: 0 0 7rem 0;">Fecha:</label>
                     <input type="date" id="fecha" name="contacto[fecha]" class="formulario__input" required>
                 </div>
                 <div class="formulario__field">
-                    <label for="hora" class="formulario__label formulario__label--required">Hora:</label>
+                    <label for="hora" class="formulario__label formulario__label--required" style="padding: 0 0 7rem 0;">Hora:</label>
                     <input type="time" id="hora" min="09:00" max="18:00" name="contacto[hora]" class="formulario__input" required>
                 </div>
             </div>
@@ -163,7 +164,7 @@ function mostrarMetodosContacto(e) {
         } else {
             contactoDiv.innerHTML = `
             <div class="formulario__field">
-                <label for="email" class="formulario__label formulario__label--required">Email:</label>
+                <label for="email" class="formulario__label formulario__label--required" style="padding: 0 0 7rem 0;">Email:</label>
                 <input type="email" placeholder="Tu Email" id="email" name="contacto[email]" class="formulario__input" required>
             </div>
             `;

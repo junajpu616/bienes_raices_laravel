@@ -105,8 +105,10 @@
                             @endif
                             
                             @guest
-                                <a href="{{ route('seller.login') }}" class="btn btn--outline-primary btn--sm">Iniciar Sesión</a>
-                                <a href="{{ route('seller.register') }}" class="btn btn--primary btn--sm">Registrarse</a>
+                                @if(!Auth::guard('seller')->check())
+                                    <a href="{{ route('seller.login') }}" class="btn btn--outline-primary btn--sm">Iniciar Sesión</a>
+                                    <a href="{{ route('seller.register') }}" class="btn btn--primary btn--sm">Registrarse</a>
+                                @endif                                
                             @endguest
                         </nav>
                     </div>
