@@ -5,10 +5,10 @@
 <main class="contenedor seccion contenido-centrado">
     <h1>{{ $propiedad->titulo }}</h1>
     <picture>
-        <img loading="lazy" src="../imagenes/{{ $propiedad->imagen }}" alt="Imagen de la propiedad">
+        <img loading="lazy" src="{{ asset('storage/propiedades') . '/' .$propiedad->imagen }}" alt="Imagen de la propiedad">
     </picture>
     <div class="resumen-propiedad">
-        <p class="precio">Q.{{ $propiedad->precio; }}</p>
+        <p class="precio">{{ $propiedad->precio; }}</p>
         <ul class="iconos-caracteristicas">
             <li>
                 <img loading="lazy" class="icono" src="{{ asset('img/icono_wc.svg') }}" alt="iconos wc">
