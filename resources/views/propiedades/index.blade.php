@@ -197,7 +197,7 @@
                                     <td>{{ $vendedor->email ?? 'No especificado' }}</td>
                                     <td>{{ $vendedor->telefono }}</td>
                                     <td>
-                                        <span class="badge badge--accent">{{ $vendedor->propiedades_count ?? 0 }}</span>
+                                        <span class="badge badge--accent">{{ $vendedor->properties()->count() ?? 0 }}</span>
                                     </td>
                                     <td>
                                         <div class="table-actions">
