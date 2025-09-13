@@ -14,5 +14,19 @@ export default defineConfig({
                 additionalData: `@use "sass:color"; @use "sass:math";`
             }
         }
-    }
+    },
+    build: {
+        rollupOptions: {
+            external: [],
+            output: {
+                assetFileNames: (assetInfo) => {
+                    let extType = assetInfo.name.split('.').at(1);
+                    if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+                        extType = 'img';
+                    }
+                    return `assets/${extType}/[name]-[hash][extname]`;
+                },
+            },
+        },
+    },
 });

@@ -46,7 +46,7 @@ html.dark-mode body {
                 135deg, 
                 rgba($dark-bg-primary, 0.9) 0%, 
                 rgba($dark-bg-secondary, 0.8) 100%
-            ), url(../../img/header.jpg);
+            ), url(/img/header.jpg);
         }
     }
 
@@ -529,7 +529,7 @@ html.dark-mode body {
             135deg,
             rgba($dark-bg-primary, 0.9) 0%,
             rgba($primary-dark, 0.8) 100%
-        ), url('../../img/encuentra.jpg');
+        ), url('/img/encuentra.jpg');
     }
 
     // Blog cards
