@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
+@use 'sass:color';
 
 // Botones base
 .btn {
@@ -157,6 +158,36 @@
         
         &:only-child {
             border-radius: $radius;
+        }
+    }
+}
+
+// Ajustes específicos para light mode
+:root:not([data-theme="dark"]) {
+    .btn--outline-primary {
+        &:hover:not(:disabled) {
+            background-color: $primary;
+            color: $blanco !important;
+            border-color: $primary;
+        }
+    }
+    
+    .btn--primary {
+        &:hover:not(:disabled) {
+            background-color: color.adjust($primary, $lightness: -10%);
+            color: $blanco !important;
+        }
+    }
+    
+    .btn--secondary {
+        &:hover:not(:disabled) {
+            color: $blanco !important;
+        }
+    }
+    
+    .btn--accent {
+        &:hover:not(:disabled) {
+            color: $blanco !important;
         }
     }
 }

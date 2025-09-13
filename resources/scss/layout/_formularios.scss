@@ -649,3 +649,19 @@ fieldset {
         box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
     }
 }
+
+// Corrección específica para el dropdown del formulario de contacto
+select.formulario__select {
+    // Resetear cualquier imagen de fondo heredada
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+    background-size: 1.6rem !important;
+    background-position: right 1rem center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: scroll !important;
+    
+    // Asegurar que las opciones no tengan fondo
+    option {
+        background-image: none !important;
+        background-color: inherit;
+    }
+}

@@ -103,7 +103,12 @@
     
     &:hover:not(:disabled) {
         background-color: $border-color;
-        color: $blanco;
+        // Determinar color de texto dinámicamente basado en el contraste
+        @if color.lightness($border-color) > 50% {
+            color: $gray-900; // Texto oscuro para fondos claros
+        } @else {
+            color: $blanco;   // Texto claro para fondos oscuros
+        }
         transform: translateY(-1px);
         box-shadow: $shadow-md;
     }
