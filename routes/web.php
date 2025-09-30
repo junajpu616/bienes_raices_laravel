@@ -7,6 +7,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AuditController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -68,3 +69,13 @@ Route::get('/admin/vendedores/create', [SellerController::class, 'create'])->nam
 Route::post('/admin/vendedores/create', [SellerController::class, 'store']);
 Route::get('/admin/vendedores/edit/{vendedor}', [SellerController::class, 'edit'])->name('vendedores.edit');
 Route::delete('/admin/vendedores/{vendedor}', [AdminController::class, 'destroy'])->name('vendedores.destroy');
+
+// Auditoría (Solo para usuarios autenticados)
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/audits', [AuditController::class, 'index'])->name('audits.index');
+    Route::get('/admin/audits/{model}/{id}', [AuditController::class, 'show'])->name('audits.show');
+});
+
+// Rutas de prueba para auditoría (temporal)
+Route::get('/test-audit', [App\Http\Controllers\AuditTestController::class, 'test']);
+Route::get('/test-audit/create-data', [App\Http\Controllers\AuditTestController::class, 'createTestData']);
