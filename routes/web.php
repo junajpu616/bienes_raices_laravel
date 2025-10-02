@@ -73,6 +73,7 @@ Route::delete('/admin/vendedores/{vendedor}', [AdminController::class, 'destroy'
 // Auditoría (Solo para usuarios autenticados)
 Route::middleware('auth')->group(function () {
     Route::get('/admin/audits', [AuditController::class, 'index'])->name('audits.index');
+    Route::get('/admin/audits/stats', [AuditController::class, 'stats'])->name('audits.stats');
     Route::get('/admin/audits/{model}/{id}', [AuditController::class, 'show'])->name('audits.show');
 });
 

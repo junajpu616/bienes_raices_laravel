@@ -76,6 +76,9 @@
                                             <a href="{{ route('admin') }}">Dashboard</a>
                                             <a href="{{ route('admin.create') }}">Nueva Propiedad</a>
                                             <a href="{{ route('vendedores.index') }}">Vendedores</a>
+                                            <hr>
+                                            <a href="{{ route('audits.index') }}" class="audit-link">🔍 Auditoría</a>
+                                            <a href="{{ route('audits.stats') }}" class="audit-link">📊 Estadísticas</a>
                                         </div>
                                     </div>
                                     <form action="{{ route('logout') }}" method="POST">
