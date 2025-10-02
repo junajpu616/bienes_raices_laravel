@@ -10,9 +10,12 @@ class AdminController extends Controller
 {
     public function adminIndex()
     {
-        // Only allow if not authenticated as seller (admin)
-        if (Auth::guard('seller')->check()) {
-            abort(403, 'Unauthorized');
+        // Allow admins from both guards
+        $isWebAdmin = Auth::check() && Auth::user()->is_admin;
+        $isSellerAdmin = Auth::guard('seller')->check() && Auth::guard('seller')->user()->is_admin;
+        
+        if (!$isWebAdmin && !$isSellerAdmin) {
+            abort(403, 'Acceso denegado. Se requieren permisos de administrador.');
         }
 
         $vendedores = Seller::all();
@@ -25,9 +28,12 @@ class AdminController extends Controller
 
     public function destroy(Seller $vendedor)
     {
-        // Only allow if not authenticated as seller (admin)
-        if (Auth::guard('seller')->check()) {
-            abort(403, 'Unauthorized');
+        // Allow admins from both guards
+        $isWebAdmin = Auth::check() && Auth::user()->is_admin;
+        $isSellerAdmin = Auth::guard('seller')->check() && Auth::guard('seller')->user()->is_admin;
+        
+        if (!$isWebAdmin && !$isSellerAdmin) {
+            abort(403, 'Acceso denegado. Se requieren permisos de administrador.');
         }
 
         $vendedor->delete();

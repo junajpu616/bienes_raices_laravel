@@ -16,6 +16,16 @@
     <div class="dashboard-actions">
         <a href="{{ route('seller.properties.create') }}" class="boton boton-verde">Crear Nueva Propiedad</a>
         <a href="{{ route('seller.properties.index') }}" class="boton boton-azul">Ver Mis Propiedades</a>
+        
+        @if(Auth::guard('seller')->user()->is_admin)
+            <div class="admin-actions">
+                <h4>🔧 Herramientas de Administrador</h4>
+                <a href="{{ route('admin') }}" class="boton boton-naranja">Panel Admin</a>
+                <a href="{{ route('vendedores.index') }}" class="boton boton-gris">Gestionar Vendedores</a>
+                <a href="{{ route('audits.index') }}" class="boton boton-morado">🔍 Auditoría</a>
+                <a href="{{ route('audits.stats') }}" class="boton boton-cyan">📊 Estadísticas</a>
+            </div>
+        @endif
     </div>
 
     <div class="propiedades-vendedor">

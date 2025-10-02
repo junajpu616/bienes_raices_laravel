@@ -16,9 +16,12 @@ class AuditController extends Controller
      */
     public function index(Request $request)
     {
-        // Por ahora, permitir acceso solo a usuarios autenticados
-        if (!Auth::check()) {
-            abort(403, 'No autorizado');
+        // Permitir acceso a usuarios web autenticados o sellers admin
+        $isWebAuth = Auth::check();
+        $isSellerAdmin = Auth::guard('seller')->check() && Auth::guard('seller')->user()->is_admin;
+        
+        if (!$isWebAuth && !$isSellerAdmin) {
+            abort(403, 'Acceso denegado. Se requiere autenticación.');
         }
 
         $query = Audit::with(['auditable', 'user'])
@@ -66,8 +69,12 @@ class AuditController extends Controller
      */
     public function show($model, $id, Request $request)
     {
-        if (!Auth::check()) {
-            abort(403, 'No autorizado');
+        // Permitir acceso a usuarios web autenticados o sellers admin
+        $isWebAuth = Auth::check();
+        $isSellerAdmin = Auth::guard('seller')->check() && Auth::guard('seller')->user()->is_admin;
+        
+        if (!$isWebAuth && !$isSellerAdmin) {
+            abort(403, 'Acceso denegado. Se requiere autenticación.');
         }
 
         // Mapear nombres de modelos a clases
@@ -124,8 +131,12 @@ class AuditController extends Controller
      */
     public function stats(Request $request)
     {
-        if (!Auth::check()) {
-            abort(403, 'No autorizado');
+        // Permitir acceso a usuarios web autenticados o sellers admin
+        $isWebAuth = Auth::check();
+        $isSellerAdmin = Auth::guard('seller')->check() && Auth::guard('seller')->user()->is_admin;
+        
+        if (!$isWebAuth && !$isSellerAdmin) {
+            abort(403, 'Acceso denegado. Se requiere autenticación.');
         }
 
         $stats = [

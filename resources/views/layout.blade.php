@@ -68,25 +68,28 @@
                             <a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'active' : '' }}">Blog</a>
                             <a href="{{ route('contacto') }}" class="{{ request()->routeIs('contacto') ? 'active' : '' }}">Contacto</a>
                             
-                            @auth
-                                @if(auth()->user()->is_admin)
-                                    <div class="nav-dropdown">
-                                        <a href="#" class="dropdown-toggle">Admin</a>
-                                        <div class="dropdown-menu">
-                                            <a href="{{ route('admin') }}">Dashboard</a>
-                                            <a href="{{ route('admin.create') }}">Nueva Propiedad</a>
-                                            <a href="{{ route('vendedores.index') }}">Vendedores</a>
-                                            <hr>
-                                            <a href="{{ route('audits.index') }}" class="audit-link">🔍 Auditoría</a>
-                                            <a href="{{ route('audits.stats') }}" class="audit-link">📊 Estadísticas</a>
-                                        </div>
+                            {{-- Menú admin (funciona para web admin y seller admin) --}}
+                            @if(function_exists('is_admin') && is_admin())
+                                <div class="nav-dropdown">
+                                    <a href="#" class="dropdown-toggle">Admin</a>
+                                    <div class="dropdown-menu">
+                                        <a href="{{ route('admin') }}">Dashboard</a>
+                                        <a href="{{ route('admin.create') }}">Nueva Propiedad</a>
+                                        <a href="{{ route('vendedores.index') }}">Vendedores</a>
+                                        <hr>
+                                        <a href="{{ route('audits.index') }}" class="audit-link">🔍 Auditoría</a>
+                                        <a href="{{ route('audits.stats') }}" class="audit-link">📊 Estadísticas</a>
                                     </div>
-                                    <form action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <input type="submit" value="Cerrar Sesión">
-                                    </form>
-                                @endif
-                            @endauth
+                                </div>
+                            @endif
+                            
+                            {{-- Botón logout para usuarios autenticados (cualquier guard) --}}
+                            @if(Auth::check() || Auth::guard('seller')->check())
+                                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <input type="submit" value="Cerrar Sesión" class="btn btn--outline-primary btn--sm">
+                                </form>
+                            @endif
                             
                             @if(Auth::guard('seller')->check())
                                 <div class="user-indicator">

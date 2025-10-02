@@ -63,15 +63,17 @@ Route::middleware('auth:seller')->group(function () {
     Route::delete('/seller/properties/{property}', [PropertyController::class, 'destroy'])->name('seller.properties.destroy');
 });
 
-// Vendedores (Admin)
-Route::get('/admin/vendedores', [AdminController::class, 'adminIndex'])->name('vendedores.index');
-Route::get('/admin/vendedores/create', [SellerController::class, 'create'])->name('vendedores.create');
-Route::post('/admin/vendedores/create', [SellerController::class, 'store']);
-Route::get('/admin/vendedores/edit/{vendedor}', [SellerController::class, 'edit'])->name('vendedores.edit');
-Route::delete('/admin/vendedores/{vendedor}', [AdminController::class, 'destroy'])->name('vendedores.destroy');
+// Vendedores (Admin) - Usar middleware admin personalizado
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/vendedores', [AdminController::class, 'adminIndex'])->name('vendedores.index');
+    Route::get('/admin/vendedores/create', [SellerController::class, 'create'])->name('vendedores.create');
+    Route::post('/admin/vendedores/create', [SellerController::class, 'store']);
+    Route::get('/admin/vendedores/edit/{vendedor}', [SellerController::class, 'edit'])->name('vendedores.edit');
+    Route::delete('/admin/vendedores/{vendedor}', [AdminController::class, 'destroy'])->name('vendedores.destroy');
+});
 
-// Auditoría (Solo para usuarios autenticados)
-Route::middleware('auth')->group(function () {
+// Auditoría - Usar middleware admin personalizado
+Route::middleware('admin')->group(function () {
     Route::get('/admin/audits', [AuditController::class, 'index'])->name('audits.index');
     Route::get('/admin/audits/stats', [AuditController::class, 'stats'])->name('audits.stats');
     Route::get('/admin/audits/{model}/{id}', [AuditController::class, 'show'])->name('audits.show');
