@@ -69,7 +69,15 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/vendedores/create', [SellerController::class, 'create'])->name('vendedores.create');
     Route::post('/admin/vendedores/create', [SellerController::class, 'store']);
     Route::get('/admin/vendedores/edit/{vendedor}', [SellerController::class, 'edit'])->name('vendedores.edit');
+    Route::put('/admin/vendedores/{vendedor}', [SellerController::class, 'update'])->name('vendedores.update');
     Route::delete('/admin/vendedores/{vendedor}', [AdminController::class, 'destroy'])->name('vendedores.destroy');
+});
+
+// Administrador - Estadísticas
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/stats', [AdminController::class, 'stats'])->name('admin.stats');
+    Route::get('/admin/property-stats', [AdminController::class, 'propertyStats'])->name('admin.propertyStats');
+    Route::get('/admin/export-excel', [AdminController::class, 'exportExcel'])->name('admin.exportExcel');
 });
 
 // Auditoría - Usar middleware admin personalizado

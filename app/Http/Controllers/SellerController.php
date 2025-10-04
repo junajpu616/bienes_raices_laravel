@@ -90,4 +90,21 @@ class SellerController extends Controller
             'inicio' => false
         ]);
     }
+
+    public function update(Request $request, Seller $vendedor)
+    {
+        $validated = $request->validate([
+            'vendedor.nombre' => 'required|string|max:30',
+            'vendedor.apellido' => 'required|string|max:30',
+            'vendedor.telefono' => 'required|numeric',
+        ]);
+
+        $vendedor->update([
+            'nombre' => $validated['vendedor']['nombre'],
+            'apellido' => $validated['vendedor']['apellido'],
+            'telefono' => $validated['vendedor']['telefono'],
+        ]);
+
+        return redirect()->route('vendedores.index')->with('exito', '¡Vendedor Actualizado Exitosamente!');
+    }
 }

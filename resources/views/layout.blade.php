@@ -69,7 +69,7 @@
                             <a href="{{ route('contacto') }}" class="{{ request()->routeIs('contacto') ? 'active' : '' }}">Contacto</a>
                             
                             {{-- Menú admin (funciona para web admin y seller admin) --}}
-                            @if(function_exists('is_admin') && is_admin())
+                            @if(Auth::check() && Auth::user()->role === 'admin')
                                 <div class="nav-dropdown">
                                     <a href="#" class="dropdown-toggle">Admin</a>
                                     <div class="dropdown-menu">
@@ -77,8 +77,8 @@
                                         <a href="{{ route('admin.create') }}">Nueva Propiedad</a>
                                         <a href="{{ route('vendedores.index') }}">Vendedores</a>
                                         <hr>
-                                        <a href="{{ route('audits.index') }}" class="audit-link">🔍 Auditoría</a>
-                                        <a href="{{ route('audits.stats') }}" class="audit-link">📊 Estadísticas</a>
+                                        <a href="{{ route('audits.index') }}" class="audit-link">🔍 Auditoría</a>                                 
+                                        <a href="{{ route('admin.stats') }}" class="audit-link">📊 Estadísticas</a>                                                                          
                                     </div>
                                 </div>
                             @endif
@@ -104,10 +104,12 @@
                                         <a href="{{ route('seller.properties.create') }}">Nueva Propiedad</a>
                                     </div>
                                 </div>
+                                @if (!Auth::guard('seller')->check())                        
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <input type="submit" value="Cerrar Sesión">
                                 </form>
+                                @endif
                             @endif
                             
                             @guest
