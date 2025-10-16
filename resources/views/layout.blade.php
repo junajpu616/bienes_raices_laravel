@@ -6,7 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Encuentra la casa de tus sueños con nosotros. Propiedades exclusivas de lujo.">
     <meta name="keywords" content="bienes raices, propiedades, casas, departamentos, venta">
-
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#1976d2">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Bienes Raíces">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-navbutton-color" content="#1976d2">
+    <meta name="msapplication-TileColor" content="#1976d2">
+    
+    <!-- PWA Icons for different platforms -->
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('img/icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="96x96" href="{{ asset('img/icon-96x96.png') }}">
+    <link rel="apple-touch-icon" sizes="128x128" href="{{ asset('img/icon-128x128.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('img/icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('img/icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{{ asset('img/icon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="384x384" href="{{ asset('img/icon-384x384.png') }}">
+    <link rel="apple-touch-icon" sizes="512x512" href="{{ asset('img/icon-512x512.png') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/icon-192x192.png') }}">
+    <link rel="shortcut icon" href="{{ asset('img/icon-192x192.png') }}">
     <title>@yield('title', 'Bienes Raices - Encuentra tu hogar perfecto')</title>
 
     <!-- Preload critical resources -->
