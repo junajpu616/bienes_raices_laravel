@@ -98,6 +98,16 @@
                             <a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'active' : '' }}">Blog</a>
                             <a href="{{ route('contacto') }}" class="{{ request()->routeIs('contacto') ? 'active' : '' }}">Contacto</a>
                             
+                            {{-- Dashboard directo para usuarios autenticados --}}
+                            @if(Auth::check() && isset(Auth::user()->role) && Auth::user()->role === 'admin')
+                                <a href="{{ route('admin') }}" class="{{ request()->routeIs('admin*') ? 'active' : '' }}">🏠 Dashboard</a>
+                            @elseif(Auth::guard('seller')->check())
+                                <a href="{{ route('seller.dashboard') }}" class="{{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">🏠 Dashboard</a>
+                            @elseif(Auth::check())
+                                {{-- Para usuarios regulares sin rol específico --}}
+                                <a href="{{ route('admin') }}" class="{{ request()->routeIs('admin*') ? 'active' : '' }}">🏠 Dashboard</a>
+                            @endif
+                            
                             {{-- Menú admin (funciona para web admin y seller admin) --}}
                             @if(Auth::check() && Auth::user()->role === 'admin')
                                 <div class="nav-dropdown">
@@ -134,18 +144,12 @@
                                         <a href="{{ route('seller.properties.create') }}">Nueva Propiedad</a>
                                     </div>
                                 </div>
-                                @if (!Auth::guard('seller')->check())                        
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <input type="submit" value="Cerrar Sesión">
-                                </form>
-                                @endif
                             @endif
                             
                             @guest
-                                @if(!Auth::guard('seller')->check())
-                                    <a href="{{ route('seller.login') }}" class="btn btn--outline-primary btn--sm">Iniciar Sesión</a>
-                                    <a href="{{ route('seller.register') }}" class="btn btn--primary btn--sm">Registrarse</a>
+                                @if(!Auth::guard('seller')->check() && !Auth::check())
+                                    <a href="{{ route('login') }}" class="btn btn--outline-primary btn--sm">Iniciar Sesión</a>
+                                    <a href="{{ route('register') }}" class="btn btn--primary btn--sm">Registrarse</a>
                                 @endif                                
                             @endguest
                         </nav>
@@ -167,6 +171,16 @@
                     <a href="{{ route('propiedades') }}" class="{{ request()->routeIs('propiedades') ? 'active' : '' }}">Propiedades</a>
                     <a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'active' : '' }}">Blog</a>
                     <a href="{{ route('contacto') }}" class="{{ request()->routeIs('contacto') ? 'active' : '' }}">Contacto</a>
+                    
+                    {{-- Dashboard directo para móvil --}}
+                    @if(Auth::check() && isset(Auth::user()->role) && Auth::user()->role === 'admin')
+                        <a href="{{ route('admin') }}" class="{{ request()->routeIs('admin*') ? 'active' : '' }}">🏠 Dashboard</a>
+                    @elseif(Auth::guard('seller')->check())
+                        <a href="{{ route('seller.dashboard') }}" class="{{ request()->routeIs('seller.dashboard') ? 'active' : '' }}">🏠 Dashboard</a>
+                    @elseif(Auth::check())
+                        {{-- Para usuarios regulares sin rol específico --}}
+                        <a href="{{ route('admin') }}" class="{{ request()->routeIs('admin*') ? 'active' : '' }}">🏠 Dashboard</a>
+                    @endif
                     
                     {{-- Menú admin para mobile --}}
                     @if(Auth::check() && Auth::user()->role === 'admin')
@@ -201,18 +215,23 @@
                         <div class="avatar">{{ substr(Auth::guard('seller')->user()->nombre, 0, 1) }}</div>
                         <span class="user-name">{{ Auth::guard('seller')->user()->nombre }}</span>
                     </div>
+                @elseif(Auth::check())
+                    <div class="user-indicator">
+                        <div class="avatar">{{ substr(Auth::user()->name, 0, 1) }}</div>
+                        <span class="user-name">{{ Auth::user()->name }}</span>
+                    </div>
                 @endif
                 
                 {{-- Action buttons --}}
                 <div class="mobile-actions">
-                    @if(Auth::guard('seller')->check())
+                    @if(Auth::check() || Auth::guard('seller')->check())
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <input type="submit" value="Cerrar Sesión" class="btn btn--outline-primary">
                         </form>
                     @else
-                        <a href="{{ route('seller.login') }}" class="btn btn--outline-primary">Iniciar Sesión</a>
-                        <a href="{{ route('seller.register') }}" class="btn btn--primary">Registrarse</a>
+                        <a href="{{ route('login') }}" class="btn btn--outline-primary">Iniciar Sesión</a>
+                        <a href="{{ route('register') }}" class="btn btn--primary">Registrarse</a>
                     @endif
                 </div>
             </div>

@@ -176,12 +176,13 @@
     justify-content: center;
     cursor: pointer;
     padding: $spacing-sm;
-    background: transparent;
+    background: rgba($gray-900, 0.1);
     border: none;
     border-radius: $radius;
     transition: all $transition-base;
     width: 4.4rem;
     height: 4.4rem;
+    backdrop-filter: blur(10px);
     
     @include telefono {
         display: flex !important;
@@ -195,8 +196,17 @@
     }
     
     &:hover {
-        background: rgba($blanco, 0.1);
+        background: rgba($blanco, 0.2);
         transform: scale(1.05);
+    }
+    
+    // Ensure visibility on homepage
+    .header.inicio & {
+        background: rgba($gray-900, 0.2);
+        
+        &:hover {
+            background: rgba($gray-900, 0.3);
+        }
     }
     
     &:focus-visible {
@@ -243,6 +253,7 @@
         border-radius: 2px;
         transition: all $transition-base;
         transform-origin: center;
+        box-shadow: 0 0 0 1px rgba($gray-900, 0.3); // Add shadow for better visibility
         
         @include telefono {
             height: 2px;
@@ -250,6 +261,13 @@
         
         .dark-mode & {
             background: $blanco;
+            box-shadow: 0 0 0 1px rgba($gray-900, 0.5);
+        }
+        
+        // Ensure visibility on homepage without scrolled class
+        .header.inicio & {
+            background: $blanco;
+            box-shadow: 0 0 0 1px rgba($gray-900, 0.5);
         }
     }
 }
