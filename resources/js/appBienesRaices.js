@@ -4,7 +4,35 @@ document.addEventListener('DOMContentLoaded', function(){
     eliminarNotificacion();
     initScrollEffects();
     initSwipeGestures();
+    preventBackAfterLogout();
 });
+
+// Prevenir navegación hacia atrás después del logout
+function preventBackAfterLogout() {
+    // Si el usuario llega a una página protegida después de logout,
+    // la página no se cargará debido al middleware del servidor,
+    // pero podemos agregar una capa adicional de protección del lado del cliente
+    
+    // Detectar si es una página protegida (admin, seller)
+    const isProtectedPage = window.location.pathname.includes('/admin') || 
+                           window.location.pathname.includes('/seller');
+    
+    if (isProtectedPage) {
+        // Reemplazar el estado de history para prevenir el botón atrás
+        window.history.pushState(null, null, window.location.href);
+        
+        window.addEventListener('popstate', function() {
+            window.history.pushState(null, null, window.location.href);
+        });
+        
+        // Prevenir caché de la página
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        };
+    }
+}
 
 function darkMode() {
     const prefiereDarkMode = window.matchMedia('(prefers-color-scheme: dark)');

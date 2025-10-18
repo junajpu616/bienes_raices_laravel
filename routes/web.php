@@ -30,12 +30,14 @@ Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 // Administrador
-Route::get('/admin', [PropertyController::class, 'index'])->name('admin');
-Route::get('/admin/create', [PropertyController::class, 'create'])->name('admin.create');
-Route::post('/admin/create', [PropertyController::class, 'store']);
-Route::get('/admin/edit/{propiedad}', [PropertyController::class, 'edit'])->name('admin.edit');
-Route::put('/admin/update/{propiedad}', [PropertyController::class, 'update'])->name('admin.update');
-Route::delete('/admin/{propiedad}', [PropertyController::class, 'destroy'])->name('admin.destroy');
+Route::middleware(['admin', 'prevent.back'])->group(function () {
+    Route::get('/admin', [PropertyController::class, 'index'])->name('admin');
+    Route::get('/admin/create', [PropertyController::class, 'create'])->name('admin.create');
+    Route::post('/admin/create', [PropertyController::class, 'store']);
+    Route::get('/admin/edit/{propiedad}', [PropertyController::class, 'edit'])->name('admin.edit');
+    Route::put('/admin/update/{propiedad}', [PropertyController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/{propiedad}', [PropertyController::class, 'destroy'])->name('admin.destroy');
+});
 
 // Seller Authentication - Redirect to unified login
 Route::get('/seller/login', function () {
@@ -51,7 +53,7 @@ Route::post('/seller/logout', function () {
 })->name('seller.logout');
 
 // Protected Seller Routes
-Route::middleware('auth:seller')->group(function () {
+Route::middleware(['auth:seller', 'prevent.back'])->group(function () {
     Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
 
     // Property management for sellers
@@ -64,7 +66,7 @@ Route::middleware('auth:seller')->group(function () {
 });
 
 // Vendedores (Admin) - Usar middleware admin personalizado
-Route::middleware('admin')->group(function () {
+Route::middleware(['admin', 'prevent.back'])->group(function () {
     Route::get('/admin/vendedores', [AdminController::class, 'adminIndex'])->name('vendedores.index');
     Route::get('/admin/vendedores/create', [SellerController::class, 'create'])->name('vendedores.create');
     Route::post('/admin/vendedores/create', [SellerController::class, 'store']);
@@ -74,14 +76,14 @@ Route::middleware('admin')->group(function () {
 });
 
 // Administrador - Estadísticas
-Route::middleware('admin')->group(function () {
+Route::middleware(['admin', 'prevent.back'])->group(function () {
     Route::get('/admin/stats', [AdminController::class, 'stats'])->name('admin.stats');
     Route::get('/admin/property-stats', [AdminController::class, 'propertyStats'])->name('admin.propertyStats');
     Route::get('/admin/export-excel', [AdminController::class, 'exportExcel'])->name('admin.exportExcel');
 });
 
 // Auditoría - Usar middleware admin personalizado
-Route::middleware('admin')->group(function () {
+Route::middleware(['admin', 'prevent.back'])->group(function () {
     Route::get('/admin/audits', [AuditController::class, 'index'])->name('audits.index');
     Route::get('/admin/audits/stats', [AuditController::class, 'stats'])->name('audits.stats');
     Route::get('/admin/audits/{model}/{id}', [AuditController::class, 'show'])->name('audits.show');

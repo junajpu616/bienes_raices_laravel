@@ -119,19 +119,17 @@
                                         <a href="{{ route('vendedores.index') }}">Vendedores</a>
                                         <hr>
                                         <a href="{{ route('audits.index') }}" class="audit-link">🔍 Auditoría</a>                                 
-                                        <a href="{{ route('admin.stats') }}" class="audit-link">📊 Estadísticas</a>                                                                          
+                                        <a href="{{ route('admin.stats') }}" class="audit-link">📊 Estadísticas</a>
+                                        @if(Auth::check() || Auth::guard('admin')->check())
+                                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <input type="submit" value="Cerrar Sesión" class="btn btn--outline-primary btn--sm">
+                                            </form>
+                                        @endif                                                                        
                                     </div>
                                 </div>
                             @endif
-                            
-                            {{-- Botón logout para usuarios autenticados (cualquier guard) --}}
-                            @if(Auth::check() || Auth::guard('seller')->check())
-                                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <input type="submit" value="Cerrar Sesión" class="btn btn--outline-primary btn--sm">
-                                </form>
-                            @endif
-                            
+                                
                             @if(Auth::guard('seller')->check())
                                 <div class="user-indicator">
                                     <div class="avatar">{{ substr(Auth::guard('seller')->user()->nombre, 0, 1) }}</div>
@@ -143,6 +141,13 @@
                                         <a href="{{ route('seller.dashboard') }}">Dashboard</a>
                                         <a href="{{ route('seller.properties.index') }}">Mis Propiedades</a>
                                         <a href="{{ route('seller.properties.create') }}">Nueva Propiedad</a>
+                                        {{-- Botón logout para usuarios autenticados (cualquier guard) --}}
+                                        @if(Auth::check() || Auth::guard('seller')->check())
+                                            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <input type="submit" value="Cerrar Sesión" class="btn btn--outline-primary btn--sm">
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             @endif

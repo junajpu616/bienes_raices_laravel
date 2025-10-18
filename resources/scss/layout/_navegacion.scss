@@ -4,79 +4,97 @@
 
 .navegacion {
     @include flex-center;
-    gap: $spacing-lg;
+    gap: $spacing-md;
     
-    @include tablet {
+    @include desktop {
         display: flex !important;
         flex-direction: row;
-        gap: $spacing-xl;
+        gap: $spacing-lg;
     }
 
     a {
         color: $blanco;
         text-decoration: none;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         font-weight: $medium;
-        padding: $spacing-xs $spacing-sm;
+        padding: $spacing-sm $spacing-md;
         border-radius: $radius;
         transition: all $transition-base;
         position: relative;
+        white-space: nowrap;
         
-        @include tablet {
-            font-size: 1.7rem;
+        @include desktop {
+            font-size: 1.4rem;
+            padding: $spacing-sm $spacing-lg;
         }
         
         &:hover {
             color: $secondary;
             transform: translateY(-2px);
+            background: rgba($secondary, 0.1);
+        }
+        
+        &:focus-visible {
+            outline: 2px solid $secondary;
+            outline-offset: 2px;
         }
         
         &::after {
             content: '';
             position: absolute;
-            bottom: -4px;
+            bottom: -2px;
             left: 50%;
             width: 0;
-            height: 2px;
+            height: 3px;
             background: linear-gradient(90deg, $secondary, $secondary-light);
             transition: all $transition-base;
             transform: translateX(-50%);
+            border-radius: 2px 2px 0 0;
         }
         
         &:hover::after,
         &.active::after {
-            width: 100%;
+            width: 80%;
         }
         
         &.active {
             color: $secondary;
+            font-weight: $bold;
         }
     }
     
     // Estilos para formularios de logout
     form {
         margin: 0;
+        display: inline-block;
         
         input[type="submit"] {
             background: none;
             border: none;
             color: $blanco;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: $medium;
             cursor: pointer;
-            padding: $spacing-xs $spacing-sm;
+            padding: $spacing-sm $spacing-md;
             border-radius: $radius;
             transition: all $transition-base;
             font-family: $fuente_principal;
+            white-space: nowrap;
             
-            @include tablet {
-                font-size: 1.7rem;
+            @include desktop {
+                font-size: 1.6rem;
+                padding: $spacing-sm $spacing-lg;
             }
             
             &:hover {
                 color: $danger;
-                background: rgba($danger, 0.1);
+                background: rgba($danger, 0.15);
                 transform: translateY(-2px);
+            }
+            
+            &:focus-visible {
+                outline: 2px solid $danger;
+                outline-offset: 2px;
             }
         }
     }
@@ -88,56 +106,127 @@
 .nav-dropdown {
     position: relative;
     
-    &:hover .dropdown-menu {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+    @include desktop {
+        &:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
     }
     
     .dropdown-toggle {
         @include flex-center;
         gap: $spacing-xs;
+        cursor: pointer;
         
         &::after {
             content: '▼';
-            font-size: 1.2rem;
+            font-size: 1rem;
             transition: transform $transition-base;
+            margin-left: $spacing-xs;
         }
     }
     
-    &:hover .dropdown-toggle::after {
-        transform: rotate(180deg);
+    @include desktop {
+        &:hover .dropdown-toggle::after {
+            transform: rotate(180deg);
+        }
     }
 }
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 1rem);
     left: 50%;
     transform: translateX(-50%) translateY(1rem);
     background: $blanco;
-    box-shadow: $shadow-lg;
+    box-shadow: $shadow-xl;
     border-radius: $radius-lg;
-    padding: $spacing-sm 0;
-    min-width: 20rem;
+    padding: $spacing-md 0;
+    min-width: 22rem;
     opacity: 0;
     visibility: hidden;
-    transition: all $transition-base;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
+    border: 1px solid rgba($gray-200, 0.8);
+    
+    .dark-mode & {
+        background: #1e293b;
+        border-color: rgba(#475569, 0.6);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    }
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 12px;
+        background: $blanco;
+        border-left: 1px solid rgba($gray-200, 0.8);
+        border-top: 1px solid rgba($gray-200, 0.8);
+        transform: translateX(-50%) rotate(45deg);
+        
+        .dark-mode & {
+            background: #1e293b;
+            border-color: rgba(#475569, 0.6);
+        }
+    }
     
     a {
         color: $gray-700;
-        padding: $spacing-sm $spacing-lg;
+        padding: $spacing-md $spacing-lg;
         display: block;
         width: 100%;
+        font-size: 1.5rem;
+        transition: all $transition-base;
+        
+        .dark-mode & {
+            color: #e2e8f0;
+        }
         
         &:hover {
-            background: $gray-50;
+            background: rgba($primary, 0.08);
             color: $primary;
+            padding-left: calc(#{$spacing-lg} + #{$spacing-xs});
+            
+            .dark-mode & {
+                background: rgba($secondary, 0.15);
+                color: $secondary;
+            }
+        }
+        
+        &:focus-visible {
+            outline: 2px solid $primary;
+            outline-offset: -2px;
+            
+            .dark-mode & {
+                outline-color: $secondary;
+            }
         }
         
         &::after {
             display: none;
+        }
+        
+        &:not(:last-child) {
+            border-bottom: 1px solid rgba($gray-200, 0.5);
+            
+            .dark-mode & {
+                border-bottom-color: rgba(#475569, 0.4);
+            }
+        }
+    }
+    
+    hr {
+        margin: $spacing-xs 0;
+        border: none;
+        border-top: 1px solid rgba($gray-200, 0.6);
+        
+        .dark-mode & {
+            border-top-color: rgba(#475569, 0.4);
         }
     }
 }
@@ -147,23 +236,36 @@
     @include flex-center;
     gap: $spacing-sm;
     padding: $spacing-xs $spacing-md;
-    background: rgba($blanco, 0.1);
+    background: rgba($blanco, 0.15);
     border-radius: $radius-full;
+    transition: all $transition-base;
+    cursor: pointer;
+    
+    &:hover {
+        background: rgba($blanco, 0.25);
+        transform: scale(1.02);
+    }
     
     .avatar {
         width: 3.2rem;
         height: 3.2rem;
         border-radius: $radius-full;
-        background: $secondary;
+        background: linear-gradient(135deg, $secondary, $secondary-light);
         @include flex-center;
         color: $blanco;
         font-weight: $bold;
         font-size: 1.4rem;
+        box-shadow: 0 2px 8px rgba($secondary, 0.3);
     }
     
     .user-name {
         font-size: 1.4rem;
         font-weight: $medium;
+        color: $blanco;
+        
+        @include desktop {
+            font-size: 1.5rem;
+        }
     }
 }
 
@@ -181,4 +283,28 @@
 
 .navegacion.mostrar {
     animation: slideDown 0.3s ease-out;
+}
+
+// Estilos para botones dentro de la navegación
+.navegacion {
+    .btn {
+        font-size: 1.4rem;
+        padding: $spacing-xs $spacing-md;
+        white-space: nowrap;
+        
+        @include desktop {
+            font-size: 1.5rem;
+            padding: $spacing-sm $spacing-lg;
+        }
+        
+        &--sm {
+            font-size: 1.3rem;
+            padding: $spacing-xs $spacing-sm;
+            
+            @include desktop {
+                font-size: 1.4rem;
+                padding: $spacing-xs $spacing-md;
+            }
+        }
+    }
 }
