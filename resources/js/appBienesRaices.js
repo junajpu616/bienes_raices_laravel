@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function(){
     darkMode();
     eliminarNotificacion();
     initScrollEffects();
+    initSwipeGestures();
 });
 
 function darkMode() {
@@ -119,13 +120,23 @@ function eventListeners() {
         });
     });
     
-    // Manejar dropdowns en el menú mobile
+    // Manejar dropdowns en el menú mobile - Mejorado
     const mobileDropdowns = document.querySelectorAll('.mobile-nav .nav-dropdown');
     mobileDropdowns.forEach(dropdown => {
         const toggle = dropdown.querySelector('.dropdown-toggle');
         if (toggle) {
             toggle.addEventListener('click', function(e) {
                 e.preventDefault();
+                e.stopPropagation();
+                
+                // Cerrar otros dropdowns abiertos
+                mobileDropdowns.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        otherDropdown.classList.remove('open');
+                    }
+                });
+                
+                // Toggle el dropdown actual
                 dropdown.classList.toggle('open');
             });
         }
@@ -151,6 +162,14 @@ function eventListeners() {
                 this.classList.remove('touching');
             });
         });
+    }
+    
+    // Prevenir scroll en body cuando el menú está abierto
+    const mobileNav = document.getElementById('mobileNav');
+    if (mobileNav) {
+        mobileNav.addEventListener('touchmove', function(e) {
+            e.stopPropagation();
+        }, { passive: true });
     }
 }
 
@@ -191,7 +210,93 @@ function cerrarMenuMobile() {
         mobileMenu.setAttribute('aria-expanded', 'false');
         mobileMenu.setAttribute('aria-label', 'Abrir menú de navegación');
         document.body.style.overflow = '';
+        
+        // Cerrar todos los dropdowns abiertos
+        const openDropdowns = document.querySelectorAll('.mobile-nav .nav-dropdown.open');
+        openDropdowns.forEach(dropdown => {
+            dropdown.classList.remove('open');
+        });
     }
+}
+
+// Funcionalidad de swipe gestures para cerrar el menú móvil
+function initSwipeGestures() {
+    const mobileNav = document.getElementById('mobileNav');
+    
+    if (!mobileNav) return;
+    
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    let isDragging = false;
+    
+    const minSwipeDistance = 50;
+    const maxVerticalDistance = 100;
+    
+    mobileNav.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        isDragging = false;
+    }, { passive: true });
+    
+    mobileNav.addEventListener('touchmove', function(e) {
+        if (!mobileNav.classList.contains('show')) return;
+        
+        const currentX = e.changedTouches[0].screenX;
+        const currentY = e.changedTouches[0].screenY;
+        const diffX = currentX - touchStartX;
+        const diffY = Math.abs(currentY - touchStartY);
+        
+        if (diffX > 0 && diffY < maxVerticalDistance) {
+            isDragging = true;
+            const dragDistance = Math.min(diffX, window.innerWidth);
+            mobileNav.style.transform = `translateX(${dragDistance}px)`;
+            mobileNav.style.transition = 'none';
+            
+            const overlay = document.getElementById('mobileOverlay');
+            if (overlay) {
+                const opacity = Math.max(0, 1 - (diffX / 300));
+                overlay.style.opacity = opacity;
+            }
+        }
+    }, { passive: true });
+    
+    mobileNav.addEventListener('touchend', function(e) {
+        if (!mobileNav.classList.contains('show')) return;
+        
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        
+        const diffX = touchEndX - touchStartX;
+        const diffY = Math.abs(touchEndY - touchStartY);
+        
+        mobileNav.style.transition = '';
+        mobileNav.style.transform = '';
+        
+        const overlay = document.getElementById('mobileOverlay');
+        if (overlay) {
+            overlay.style.opacity = '';
+        }
+        
+        if (isDragging && diffX > minSwipeDistance && diffY < maxVerticalDistance) {
+            cerrarMenuMobile();
+        }
+        
+        isDragging = false;
+    }, { passive: true });
+    
+    mobileNav.addEventListener('touchcancel', function() {
+        mobileNav.style.transition = '';
+        mobileNav.style.transform = '';
+        
+        const overlay = document.getElementById('mobileOverlay');
+        if (overlay) {
+            overlay.style.opacity = '';
+        }
+        
+        isDragging = false;
+    }, { passive: true });
 }
 
 function eliminarNotificacion() {

@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Encuentra la casa de tus sueños con nosotros. Propiedades exclusivas de lujo.">
     <meta name="keywords" content="bienes raices, propiedades, casas, departamentos, venta">
