@@ -95,20 +95,102 @@ function eventListeners() {
             }
         });
     });
+    
+    // Cerrar menú mobile con botón de cerrar
+    const closeMobileBtn = document.getElementById('closeMobileMenu');
+    if (closeMobileBtn) {
+        closeMobileBtn.addEventListener('click', cerrarMenuMobile);
+    }
+    
+    // Cerrar menú mobile al hacer clic en overlay
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', cerrarMenuMobile);
+    }
+    
+    // Cerrar menú mobile al hacer clic en un enlace
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav .navegacion a');
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            // Solo cerrar si no es un dropdown toggle
+            if (!link.classList.contains('dropdown-toggle')) {
+                cerrarMenuMobile();
+            }
+        });
+    });
+    
+    // Manejar dropdowns en el menú mobile
+    const mobileDropdowns = document.querySelectorAll('.mobile-nav .nav-dropdown');
+    mobileDropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        if (toggle) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                dropdown.classList.toggle('open');
+            });
+        }
+    });
+    
+    // Mejorar experiencia táctil en dispositivos móviles
+    if ('ontouchstart' in window) {
+        // Agregar clases específicas para dispositivos táctiles
+        document.body.classList.add('touch-device');
+        
+        // Mejorar el feedback táctil en botones
+        const touchButtons = document.querySelectorAll('.mobile-menu, .theme-toggle');
+        touchButtons.forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.classList.add('touching');
+            });
+            
+            button.addEventListener('touchend', function() {
+                this.classList.remove('touching');
+            });
+            
+            button.addEventListener('touchcancel', function() {
+                this.classList.remove('touching');
+            });
+        });
+    }
 }
 
 function navegacionResponsive(){
-    const navegacion = document.querySelector('.navegacion');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileOverlay = document.getElementById('mobileOverlay');
     const mobileMenu = document.querySelector('.mobile-menu');
-    const derecha = document.querySelector('.derecha');
 
-    if (navegacion) {
-        navegacion.classList.toggle('mostrar');
-        derecha.classList.toggle('active');
+    if (mobileNav && mobileOverlay && mobileMenu) {
+        // Toggle clases
+        mobileNav.classList.toggle('show');
+        mobileOverlay.classList.toggle('show');
+        mobileMenu.classList.toggle('active');
         
-        // Actualizar aria-expanded
-        const isExpanded = navegacion.classList.contains('mostrar');
+        // Actualizar aria-expanded y aria-label
+        const isExpanded = mobileNav.classList.contains('show');
         mobileMenu.setAttribute('aria-expanded', isExpanded);
+        mobileMenu.setAttribute('aria-label', isExpanded ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+        
+        // Prevenir scroll en body cuando el menú está abierto
+        if (isExpanded) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+}
+
+function cerrarMenuMobile() {
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    
+    if (mobileNav && mobileOverlay && mobileMenu) {
+        mobileNav.classList.remove('show');
+        mobileOverlay.classList.remove('show');
+        mobileMenu.classList.remove('active');
+        mobileMenu.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-label', 'Abrir menú de navegación');
+        document.body.style.overflow = '';
     }
 }
 

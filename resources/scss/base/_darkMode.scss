@@ -65,6 +65,16 @@ html.dark-mode body {
                 color: $secondary;
             }
         }
+        
+        .mobile-menu {
+            .hamburger-line {
+                background: $dark-text-primary;
+            }
+            
+            &:hover {
+                background: rgba($dark-text-primary, 0.1);
+            }
+        }
     }
 
     // Navegación

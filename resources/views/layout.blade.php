@@ -34,7 +34,9 @@
     <title>@yield('title', 'Bienes Raices - Encuentra tu hogar perfecto')</title>
 
     <!-- Preload critical resources -->
+    @if(isset($inicio) && $inicio)
     <link rel="preload" href="{{ asset('img/header.jpg') }}" as="image">
+    @endif
     
     <!-- Prevent dark mode flicker -->
     <script>
@@ -69,7 +71,11 @@
                     </a>
                     
                     <button class="mobile-menu" aria-label="Abrir menú de navegación" aria-expanded="false">
-                        <img src="{{ asset('img/barras.svg') }}" alt="Menú hamburguesa">
+                        <div class="hamburger-icon">
+                            <span class="hamburger-line"></span>
+                            <span class="hamburger-line"></span>
+                            <span class="hamburger-line"></span>
+                        </div>
                     </button>
                     
                     <div class="derecha">
@@ -147,6 +153,70 @@
                 </div>
             </div>
         </nav>
+        
+        <!-- Mobile Menu Overlay y Navigation -->
+        <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav__header">
+                <h3>Navegación</h3>
+                <button class="close-btn" id="closeMobileMenu" aria-label="Cerrar menú">&times;</button>
+            </div>
+            <div class="mobile-nav__content">
+                <nav class="navegacion" role="navigation" aria-label="Navegación móvil">
+                    <a href="{{ route('nosotros') }}" class="{{ request()->routeIs('nosotros') ? 'active' : '' }}">Nosotros</a>
+                    <a href="{{ route('propiedades') }}" class="{{ request()->routeIs('propiedades') ? 'active' : '' }}">Propiedades</a>
+                    <a href="{{ route('blog') }}" class="{{ request()->routeIs('blog') ? 'active' : '' }}">Blog</a>
+                    <a href="{{ route('contacto') }}" class="{{ request()->routeIs('contacto') ? 'active' : '' }}">Contacto</a>
+                    
+                    {{-- Menú admin para mobile --}}
+                    @if(Auth::check() && Auth::user()->role === 'admin')
+                        <div class="nav-dropdown">
+                            <a href="#" class="dropdown-toggle">Admin</a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('admin') }}">Dashboard</a>
+                                <a href="{{ route('admin.create') }}">Nueva Propiedad</a>
+                                <a href="{{ route('vendedores.index') }}">Vendedores</a>
+                                <a href="{{ route('audits.index') }}">🔍 Auditoría</a>                                 
+                                <a href="{{ route('admin.stats') }}">📊 Estadísticas</a>                                                                          
+                            </div>
+                        </div>
+                    @endif
+                    
+                    {{-- Seller dropdown para mobile --}}
+                    @if(Auth::guard('seller')->check())
+                        <div class="nav-dropdown">
+                            <a href="#" class="dropdown-toggle">Mi Cuenta</a>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('seller.dashboard') }}">Dashboard</a>
+                                <a href="{{ route('seller.properties.index') }}">Mis Propiedades</a>
+                                <a href="{{ route('seller.properties.create') }}">Nueva Propiedad</a>
+                            </div>
+                        </div>
+                    @endif
+                </nav>
+                
+                {{-- User indicator para mobile --}}
+                @if(Auth::guard('seller')->check())
+                    <div class="user-indicator">
+                        <div class="avatar">{{ substr(Auth::guard('seller')->user()->nombre, 0, 1) }}</div>
+                        <span class="user-name">{{ Auth::guard('seller')->user()->nombre }}</span>
+                    </div>
+                @endif
+                
+                {{-- Action buttons --}}
+                <div class="mobile-actions">
+                    @if(Auth::guard('seller')->check())
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <input type="submit" value="Cerrar Sesión" class="btn btn--outline-primary">
+                        </form>
+                    @else
+                        <a href="{{ route('seller.login') }}" class="btn btn--outline-primary">Iniciar Sesión</a>
+                        <a href="{{ route('seller.register') }}" class="btn btn--primary">Registrarse</a>
+                    @endif
+                </div>
+            </div>
+        </div>
         
         @if (isset($inicio) && $inicio)
             <div class="contenedor contenido-header">

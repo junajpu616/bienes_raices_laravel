@@ -1,29 +1,12 @@
-const CACHE_NAME = 'bienes-raices-v1';
+const CACHE_NAME = 'bienes-raices-v2';
 const urlsToCache = [
   '/',
-  '/build/assets/app-*.css',
-  '/build/assets/app-*.js',
-  '/img/anuncio1.jpg',
-  '/img/anuncio2.jpg',
-  '/img/anuncio3.jpg',
-  '/img/anuncio4.jpg',
-  '/img/anuncio5.jpg',
-  '/img/anuncio6.jpg',
   '/manifest.json'
 ];
 
 // Instalación del Service Worker
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Cache abierto');
-        return cache.addAll(urlsToCache);
-      })
-      .catch(error => {
-        console.log('Error al cachear archivos:', error);
-      })
-  );
+  console.log('Service Worker instalado');
   self.skipWaiting();
 });
 
@@ -46,6 +29,17 @@ self.addEventListener('activate', event => {
 
 // Interceptar peticiones de red
 self.addEventListener('fetch', event => {
+  // Solo manejar requests HTTP/HTTPS
+  if (!event.request.url.startsWith('http')) {
+    return;
+  }
+  
+  // Skip chrome-extension and other non-standard schemes
+  const url = new URL(event.request.url);
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -53,24 +47,20 @@ self.addEventListener('fetch', event => {
         if (response) {
           return response;
         }
-
-        return fetch(event.request).then(response => {
-          // Verificar si es una respuesta válida
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
+        
+        // Fetch desde la red
+        return fetch(event.request).catch(() => {
+          // Si falla la red, devolver una respuesta básica para HTML
+          if (event.request.destination === 'document') {
+            return caches.match('/');
           }
-
-          // Clonar la respuesta
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
         });
-      }
-    )
+      })
+      .catch(() => {
+        // Fallback básico
+        if (event.request.destination === 'document') {
+          return new Response('Offline', { status: 503 });
+        }
+      })
   );
 });

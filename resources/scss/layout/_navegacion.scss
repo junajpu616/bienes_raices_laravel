@@ -6,17 +6,6 @@
     @include flex-center;
     gap: $spacing-lg;
     
-    @include telefono {
-        display: none;
-        flex-direction: column;
-        gap: $spacing-md;
-        width: 100%;
-        
-        &.mostrar {
-            display: flex;
-        }
-    }
-    
     @include tablet {
         display: flex !important;
         flex-direction: row;
@@ -92,6 +81,8 @@
         }
     }
 }
+
+
 
 // Dropdown para menús complejos
 .nav-dropdown {
